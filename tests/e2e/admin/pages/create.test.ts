@@ -51,7 +51,7 @@ test('Users can create page that is published', async ({ page, login }) => {
 	await page
 		.getByRole('textbox', { name: 'description' })
 		.fill(newPage.description)
-	await page.getByLabel(/publish/i).check()
+	// leave published unchecked
 
 	// submit
 	await page.getByRole('button', { name: 'submit' }).click()
@@ -59,10 +59,12 @@ test('Users can create page that is published', async ({ page, login }) => {
 	// expect page to be created
 	await expect(page).toHaveURL(new RegExp(`/admin/pages/${newPage.slug}`))
 	await expect(page.getByRole('heading', { name: newPage.name })).toBeVisible()
-	const description = await page.getByText(newPage.description).first()
-	await expect(description).toBeVisible()
 	const published = await page.getByText('Published').first()
 	await expect(published).toBeVisible()
+	const description = await page.getByText(newPage.description).first()
+	await expect(description).toBeVisible()
+	const timestamp = await page.getByText('less than a minute ago').first()
+	await expect(timestamp).toBeVisible()
 })
 
 test('Users can create page that is not published', async ({ page, login }) => {
@@ -77,7 +79,7 @@ test('Users can create page that is not published', async ({ page, login }) => {
 	await page
 		.getByRole('textbox', { name: 'description' })
 		.fill(newPage.description)
-	// leave published unchecked
+	await page.getByLabel(/publish/i).check()
 
 	// submit
 	await page.getByRole('button', { name: 'submit' }).click()
@@ -85,8 +87,10 @@ test('Users can create page that is not published', async ({ page, login }) => {
 	// expect page to be created
 	await expect(page).toHaveURL(new RegExp(`/admin/pages/${newPage.slug}`))
 	await expect(page.getByRole('heading', { name: newPage.name })).toBeVisible()
+	const published = await page.getByText('Published').first()
+	await expect(published).toBeVisible()
 	const description = await page.getByText(newPage.description).first()
 	await expect(description).toBeVisible()
-	const published = await page.getByText('Not Published').first()
-	await expect(published).toBeVisible()
+	const timestamp = await page.getByText('less than a minute ago').first()
+	await expect(timestamp).toBeVisible()
 })

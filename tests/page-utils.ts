@@ -4,6 +4,12 @@ import { expect, type RoleType } from '#tests/playwright-utils.ts'
 // https://playwright.dev/docs/locators
 // https://www.programsbuzz.com/article/playwright-select-first-or-last-element
 
+// use this when it might be content and not a heading
+export const expectUniqueText = async (page: Page, text: string) => {
+	const element = await page.getByText(text).first()
+	await expect(element).toBeVisible()
+}
+
 export const clickLink = async (page: Page, name: string) => {
 	await page.getByRole('link', { name: new RegExp(name, 'i') }).click()
 }
