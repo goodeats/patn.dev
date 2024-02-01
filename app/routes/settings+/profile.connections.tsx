@@ -9,8 +9,8 @@ import {
 } from '@remix-run/node'
 import { useFetcher, useLoaderData } from '@remix-run/react'
 import { useState } from 'react'
+import { StatusButton } from '#app/components/templates/index.ts'
 import { Icon } from '#app/components/ui/icon.tsx'
-import { StatusButton } from '#app/components/ui/status-button.tsx'
 import {
 	Tooltip,
 	TooltipContent,
