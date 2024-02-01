@@ -1,5 +1,5 @@
 import { expect, test } from '#tests/playwright-utils.ts'
-import { createPage } from './pages-utils'
+import { createPage, insertPage } from './pages-utils'
 
 test.describe('Users cannot create Admin Pages', () => {
 	test('when not logged in', async ({ page }) => {
@@ -37,6 +37,30 @@ test('Users will see error if no name', async ({ page, login }) => {
 	await expect(nameRequired).toBeVisible()
 	const descriptionRequired = await page.getByText('Required').last()
 	await expect(descriptionRequired).toBeVisible()
+})
+
+test('Users will see error if duplicate name', async ({ page, login }) => {
+	await login()
+	const otherPage = await insertPage({})
+	await page.goto('/admin/pages')
+
+	await page.getByRole('link', { name: 'add page' }).click()
+
+	// fill in form
+	await page.getByRole('textbox', { name: 'name' }).fill(otherPage.name)
+	await page
+		.getByRole('textbox', { name: 'description' })
+		.fill(otherPage.description)
+
+	// submit
+	await page.getByRole('button', { name: 'submit' }).click()
+
+	// expect page to not be created
+	await expect(page).toHaveURL('/admin/pages/new')
+	const nameAlreadyExists = await page
+		.getByText('Page with that name already exists')
+		.first()
+	await expect(nameAlreadyExists).toBeVisible()
 })
 
 test('Users can create page that is published', async ({ page, login }) => {

@@ -56,6 +56,7 @@ export async function action({ request }: ActionFunctionArgs) {
 					code: z.ZodIssueCode.custom,
 					message: `Page with that name already exists`,
 				})
+				return
 			}
 		}),
 		async: true,
@@ -90,6 +91,7 @@ export function NewForm() {
 	const actionData = useActionData<typeof action>()
 	const isPending = useIsPending()
 
+	// TODO: keep previous form data on backend error
 	const [form, fields] = useForm({
 		id: 'new-page',
 		constraint: getZodConstraint(NewPageSchema),
@@ -97,7 +99,6 @@ export function NewForm() {
 		onValidate({ formData }) {
 			return parseWithZod(formData, { schema: NewPageSchema })
 		},
-		shouldRevalidate: 'onBlur',
 	})
 
 	const FormName = () => {
