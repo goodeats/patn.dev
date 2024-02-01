@@ -13,6 +13,12 @@ test.describe('User can view Admin Pages', () => {
 		await page.goto('/admin/pages')
 		await expect(page).toHaveURL('/admin/pages')
 
+		// new link
+		const newLink = page.getByRole('link', { name: /add page/i })
+		await newLink.click()
+		await expect(page).toHaveURL('/admin/pages/new')
+		await page.goto('/admin/pages')
+
 		// main content
 		await expect(
 			page.getByRole('heading', { name: 'Pages', exact: true }),

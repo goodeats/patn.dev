@@ -62,7 +62,10 @@ export default function PagesIndexRoute() {
 					{pages.map(page => {
 						return (
 							<TableRow key={page.id}>
-								<TableCell className="font-medium">{page.name}</TableCell>
+								<TableCell>
+									<Link to={page.slug}>{page.name}</Link>
+								</TableCell>
+								<TableCell>{page.published ? 'Yes' : 'No'}</TableCell>
 								<TableCell className="text-right">
 									{new Date(page.updatedAt).toLocaleDateString()}
 								</TableCell>

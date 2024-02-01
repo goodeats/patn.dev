@@ -1,6 +1,7 @@
 export * from './checkbox-field'
 export * from './errors'
 export * from './field'
+export * from './hidden-submit'
 export * from './progress-bar'
 export * from './search-bar'
 export * from './spacer'

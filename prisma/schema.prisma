@@ -191,7 +191,7 @@ model Page {
   description String @default("")
   slug        String @unique
   order       Int    @default(0)
-  published   Boolean @default(true)
+  published   Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -207,7 +207,7 @@ model Post {
   description String
   slug        String @unique
   order       Int    @default(0)
-  published   Boolean @default(true)
+  published   Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -236,7 +236,7 @@ model Link {
   url         String
   urlDomain   String
   order       Int    @default(0)
-  published   Boolean @default(true)
+  published   Boolean @default(false)
   type        String @default("link")
   external    Boolean @default(true) // if false, it's a link to somewhere else on my site (open new tab)
 
