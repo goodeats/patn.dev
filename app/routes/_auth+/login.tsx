@@ -13,9 +13,13 @@ import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { safeRedirect } from 'remix-utils/safe-redirect'
 import { z } from 'zod'
 import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
-import { CheckboxField, ErrorList, Field } from '#app/components/forms.tsx'
-import { Spacer } from '#app/components/spacer.tsx'
-import { StatusButton } from '#app/components/templates/index.ts'
+import {
+	CheckboxField,
+	ErrorList,
+	Field,
+	Spacer,
+	StatusButton,
+} from '#app/components/templates'
 import { twoFAVerificationType } from '#app/routes/settings+/profile.two-factor.tsx'
 import {
 	getUserId,

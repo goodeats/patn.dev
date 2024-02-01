@@ -4,7 +4,7 @@ import {
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from '#app/components/ui/index.ts'
+} from '#app/components/ui'
 import { cn } from '#app/utils/misc.tsx'
 import { logos } from './logos/logos.ts'
 

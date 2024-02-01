@@ -5,8 +5,8 @@ import {
 	type ActionFunctionArgs,
 } from '@remix-run/node'
 import { useFetcher } from '@remix-run/react'
-import { StatusButton } from '#app/components/templates/index.ts'
-import { Icon } from '#app/components/ui/index.ts'
+import { StatusButton } from '#app/components/templates'
+import { Icon } from '#app/components/ui'
 import { requireRecentVerification } from '#app/routes/_auth+/verify.tsx'
 import { requireUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'

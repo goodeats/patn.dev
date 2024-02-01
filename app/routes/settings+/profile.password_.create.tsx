@@ -8,9 +8,8 @@ import {
 	type ActionFunctionArgs,
 } from '@remix-run/node'
 import { Form, Link, useActionData } from '@remix-run/react'
-import { ErrorList, Field } from '#app/components/forms.tsx'
-import { StatusButton } from '#app/components/templates/index.ts'
-import { Button, Icon } from '#app/components/ui/index.ts'
+import { ErrorList, Field, StatusButton } from '#app/components/templates'
+import { Button, Icon } from '#app/components/ui'
 import { getPasswordHash, requireUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
 import { useIsPending } from '#app/utils/misc.tsx'

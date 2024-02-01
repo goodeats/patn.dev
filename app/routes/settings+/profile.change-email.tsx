@@ -11,9 +11,8 @@ import {
 } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
 import { z } from 'zod'
-import { ErrorList, Field } from '#app/components/forms.tsx'
-import { StatusButton } from '#app/components/templates/index.ts'
-import { Icon } from '#app/components/ui/index.ts'
+import { ErrorList, Field, StatusButton } from '#app/components/templates'
+import { Icon } from '#app/components/ui'
 import {
 	prepareVerification,
 	requireRecentVerification,

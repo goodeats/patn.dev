@@ -23,9 +23,13 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
 import { floatingToolbarClassName } from '#app/components/floating-toolbar.tsx'
-import { ErrorList, Field, TextareaField } from '#app/components/forms.tsx'
-import { StatusButton } from '#app/components/templates/index.ts'
-import { Button, Icon, Label, Textarea } from '#app/components/ui/index.ts'
+import {
+	ErrorList,
+	Field,
+	TextareaField,
+	StatusButton,
+} from '#app/components/templates'
+import { Button, Icon, Label, Textarea } from '#app/components/ui'
 import { requireUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
 import { cn, getNoteImgSrc, useIsPending } from '#app/utils/misc.tsx'

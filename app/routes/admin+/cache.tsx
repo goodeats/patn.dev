@@ -15,9 +15,8 @@ import {
 	useSubmit,
 } from '@remix-run/react'
 import { GeneralErrorBoundary } from '#app/components/error-boundary'
-import { Field } from '#app/components/forms.tsx'
-import { Spacer } from '#app/components/spacer.tsx'
-import { Button } from '#app/components/ui/index.ts'
+import { Field, Spacer } from '#app/components/templates'
+import { Button } from '#app/components/ui'
 import {
 	cache,
 	getAllCacheKeys,

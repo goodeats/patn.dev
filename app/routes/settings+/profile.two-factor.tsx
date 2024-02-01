@@ -1,6 +1,6 @@
 import { type SEOHandle } from '@nasa-gcn/remix-seo'
 import { Outlet } from '@remix-run/react'
-import { Icon } from '#app/components/ui/index.ts'
+import { Icon } from '#app/components/ui'
 import { type VerificationTypes } from '#app/routes/_auth+/verify.tsx'
 import { type BreadcrumbHandle } from './profile.tsx'
 

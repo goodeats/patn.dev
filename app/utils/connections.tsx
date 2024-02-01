@@ -1,7 +1,7 @@
 import { Form } from '@remix-run/react'
 import { z } from 'zod'
-import { StatusButton } from '#app/components/templates/index.ts'
-import { Icon } from '#app/components/ui/index.ts'
+import { StatusButton } from '#app/components/templates'
+import { Icon } from '#app/components/ui'
 import { useIsPending } from './misc.tsx'
 
 export const GITHUB_PROVIDER_NAME = 'github'

@@ -18,9 +18,8 @@ import {
 } from '@remix-run/react'
 import { useState } from 'react'
 import { z } from 'zod'
-import { ErrorList } from '#app/components/forms.tsx'
-import { StatusButton } from '#app/components/templates/index.ts'
-import { Button, Icon } from '#app/components/ui/index.ts'
+import { ErrorList, StatusButton } from '#app/components/templates'
+import { Button, Icon } from '#app/components/ui'
 import { requireUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
 import {
