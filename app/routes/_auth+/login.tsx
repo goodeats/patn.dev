@@ -12,7 +12,7 @@ import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { safeRedirect } from 'remix-utils/safe-redirect'
 import { z } from 'zod'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
+import { GeneralErrorBoundary } from '#app/components/layout'
 import {
 	CheckboxField,
 	ErrorList,

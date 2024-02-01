@@ -9,7 +9,7 @@ import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData, useSearchParams } from '@remix-run/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
+import { GeneralErrorBoundary } from '#app/components/layout'
 import {
 	ErrorList,
 	Field,

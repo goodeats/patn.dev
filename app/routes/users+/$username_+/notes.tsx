@@ -1,7 +1,7 @@
 import { invariantResponse } from '@epic-web/invariant'
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/react'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
+import { GeneralErrorBoundary } from '#app/components/layout'
 import { prisma } from '#app/utils/db.server.ts'
 
 export async function loader({ params }: LoaderFunctionArgs) {

@@ -9,8 +9,10 @@ import {
 import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
 import { formatDistanceToNow } from 'date-fns'
 import { z } from 'zod'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
-import { floatingToolbarClassName } from '#app/components/floating-toolbar.tsx'
+import {
+	GeneralErrorBoundary,
+	floatingToolbarClassName,
+} from '#app/components/layout'
 import { ErrorList, StatusButton } from '#app/components/templates'
 import { Button, Icon } from '#app/components/ui'
 import { requireUserId } from '#app/utils/auth.server.ts'

@@ -28,7 +28,7 @@ import { withSentry } from '@sentry/remix'
 import { useRef } from 'react'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
-import { GeneralErrorBoundary } from './components/error-boundary.tsx'
+import { GeneralErrorBoundary } from './components/layout'
 import { EpicProgress, useToast } from './components/templates'
 import {
 	Button,

@@ -11,7 +11,7 @@ import {
 import { Form, useActionData, useSearchParams } from '@remix-run/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
+import { GeneralErrorBoundary } from '#app/components/layout'
 import { ErrorList, Field, StatusButton } from '#app/components/templates'
 import {
 	ProviderConnectionForm,

@@ -21,8 +21,10 @@ import {
 import { Form, useActionData } from '@remix-run/react'
 import { useState } from 'react'
 import { z } from 'zod'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
-import { floatingToolbarClassName } from '#app/components/floating-toolbar.tsx'
+import {
+	floatingToolbarClassName,
+	GeneralErrorBoundary,
+} from '#app/components/layout'
 import {
 	ErrorList,
 	Field,

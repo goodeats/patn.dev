@@ -1,5 +1,5 @@
 import { redirect, type LoaderFunctionArgs } from '@remix-run/node'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
+import { GeneralErrorBoundary } from '#app/components/layout'
 
 // const UserSearchResultSchema = z.object({
 // 	id: z.string(),

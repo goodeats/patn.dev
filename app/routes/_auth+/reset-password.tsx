@@ -9,7 +9,7 @@ import {
 	type MetaFunction,
 } from '@remix-run/node'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
+import { GeneralErrorBoundary } from '#app/components/layout'
 import { ErrorList, Field, StatusButton } from '#app/components/templates'
 import { requireAnonymous, resetUserPassword } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
