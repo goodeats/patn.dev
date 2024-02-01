@@ -69,7 +69,6 @@ export async function action({ request }: ActionFunctionArgs) {
 	}
 
 	const { name, description, published } = submission.value
-	console.log('submission', submission)
 	const slug = stringToSlug(name)
 	const orderInt = await prisma.page.count()
 

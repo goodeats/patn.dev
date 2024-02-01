@@ -46,7 +46,7 @@ test('Users will see error if no name', async ({ page, login }) => {
 	await expect(descriptionRequired).toBeVisible()
 })
 
-test.skip('Users will see error if duplicate name', async ({ page, login }) => {
+test('Users will see error if duplicate name', async ({ page, login }) => {
 	await login()
 	const newPage = await insertPage({})
 	const otherPage = await insertPage({})
@@ -60,8 +60,10 @@ test.skip('Users will see error if duplicate name', async ({ page, login }) => {
 
 	// expect page to not be created
 	await expect(page).toHaveURL(testUrl)
-	const nameRequired = await page.getByText('Required').first()
-	await expect(nameRequired).toBeVisible()
+	const nameAlreadyExists = await page
+		.getByText('Page with that name already exists')
+		.first()
+	await expect(nameAlreadyExists).toBeVisible()
 })
 
 test('Users can update page that is published', async ({ page, login }) => {

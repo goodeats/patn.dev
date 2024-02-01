@@ -41,6 +41,7 @@ const descriptionMinLength = 1
 const descriptionMaxLength = 10000
 
 const EditPageSchema = z.object({
+	id: z.string(),
 	name: z.string().min(titleMinLength).max(titleMaxLength),
 	description: z.string().min(descriptionMinLength).max(descriptionMaxLength),
 	published: z.boolean().optional(),
@@ -53,15 +54,27 @@ export async function action({ request }: ActionFunctionArgs) {
 
 	const submission = await parseWithZod(formData, {
 		schema: EditPageSchema.superRefine(async (data, ctx) => {
+			const page = await prisma.page.findUnique({
+				select: { id: true },
+				where: { id: data.id },
+			})
+			if (!page) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: 'Page not found',
+				})
+			}
+
 			const pageWithName = await prisma.page.findFirst({
 				select: { id: true },
 				where: { name: data.name },
 			})
-			if (pageWithName) {
+			if (pageWithName && pageWithName.id !== data.id) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
 					message: `Page with that name already exists`,
 				})
+				return
 			}
 		}),
 		async: true,
@@ -74,23 +87,21 @@ export async function action({ request }: ActionFunctionArgs) {
 		)
 	}
 
-	const { name, description, published } = submission.value
-	console.log('submission', submission)
+	const { id: pageId, name, description, published } = submission.value
 	const slug = stringToSlug(name)
-	const orderInt = await prisma.page.count()
 
-	const createdPage = await prisma.page.create({
+	const updatedPage = await prisma.page.update({
+		where: { id: pageId },
 		select: { slug: true },
 		data: {
 			name,
 			description,
 			slug,
 			published,
-			order: orderInt,
 		},
 	})
 
-	return redirect(`/admin/pages/${createdPage.slug}`)
+	return redirect(`/admin/pages/${updatedPage.slug}`)
 }
 
 export function EditForm({
@@ -111,7 +122,6 @@ export function EditForm({
 		defaultValue: {
 			...page,
 		},
-		shouldRevalidate: 'onBlur',
 	})
 
 	const FormName = () => {
@@ -179,6 +189,7 @@ export function EditForm({
 					{...getFormProps(form)}
 				>
 					<HiddenSubmitButton />
+					<input type="hidden" name="id" value={page.id} />
 					<FormFieldsContainer>
 						<FormName />
 						<FormDescription />
