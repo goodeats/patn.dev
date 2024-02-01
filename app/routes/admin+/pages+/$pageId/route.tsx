@@ -2,7 +2,8 @@ import { invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs } from '@remix-run/node'
 import { json, useLoaderData } from '@remix-run/react'
 import { formatDistanceToNow } from 'date-fns'
-import { ContentHeader } from '#app/components/layout'
+import { ContentHeader, ContentSection } from '#app/components/layout'
+import { Badge } from '#app/components/ui'
 import { prisma } from '#app/utils/db.server'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server'
 
@@ -35,8 +36,12 @@ export default function PageRoute() {
 	return (
 		<div>
 			<ContentHeader>{name}</ContentHeader>
-			<p>{description}</p>
-			<p>{published ? 'Published' : 'Not Published'}</p>
+			<ContentSection>
+				<Badge variant={published ? 'secondary' : 'destructive'}>
+					{published ? 'Published' : 'Not Published'}
+				</Badge>
+			</ContentSection>
+			<ContentSection>{description}</ContentSection>
 		</div>
 	)
 }
