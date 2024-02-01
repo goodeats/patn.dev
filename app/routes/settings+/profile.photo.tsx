@@ -102,12 +102,12 @@ export async function action({ request }: ActionFunctionArgs) {
 	const { image, intent } = submission.value
 
 	if (intent === 'delete') {
-		await prisma.userImage.deleteMany({ where: { userId } })
+		await prisma.image.deleteMany({ where: { userId } })
 		return redirect('/settings/profile')
 	}
 
 	await prisma.$transaction(async $prisma => {
-		await $prisma.userImage.deleteMany({ where: { userId } })
+		await $prisma.image.deleteMany({ where: { userId } })
 		await $prisma.user.update({
 			where: { id: userId },
 			data: { image: { create: image } },

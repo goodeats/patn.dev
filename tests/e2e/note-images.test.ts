@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { faker } from '@faker-js/faker'
-import { type NoteImage, type Note } from '@prisma/client'
+import { type Image, type Note } from '@prisma/client'
 import { prisma } from '#app/utils/db.server.ts'
 import { expect, test } from '#tests/playwright-utils.ts'
 
@@ -117,6 +117,10 @@ function createNote() {
 	return {
 		title: faker.lorem.words(3),
 		content: faker.lorem.paragraphs(3),
+		pageId: null,
+		postId: null,
+		categoryId: null,
+		tagId: null,
 	} satisfies Omit<Note, 'id' | 'createdAt' | 'updatedAt' | 'type' | 'ownerId'>
 }
 function createNoteWithImage() {
@@ -135,6 +139,6 @@ function createNoteWithImage() {
 		Note,
 		'id' | 'createdAt' | 'updatedAt' | 'type' | 'ownerId'
 	> & {
-		images: { create: Pick<NoteImage, 'altText' | 'blob' | 'contentType'> }
+		images: { create: Pick<Image, 'altText' | 'blob' | 'contentType'> }
 	}
 }
