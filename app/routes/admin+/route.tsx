@@ -11,6 +11,9 @@ import {
 	SideNavContainer,
 	SideNavHeaderLink,
 	SideNavHeaderTitle,
+	SideNavList,
+	SideNavListItem,
+	SideNavLink,
 } from '#app/components/layout'
 import { prisma } from '#app/utils/db.server'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server.ts'
@@ -45,11 +48,14 @@ export default function AdminRoute() {
 						<SideNavHeaderLink to="admin">
 							<SideNavHeaderTitle>Admin</SideNavHeaderTitle>
 						</SideNavHeaderLink>
-						{/* <List /> */}
+						<SideNavList>
+							<SideNavListItem>
+								<SideNavLink to="/settings/profile">Profile</SideNavLink>
+							</SideNavListItem>
+						</SideNavList>
 					</SideNavContainer>
 				</SideNavWrapper>
 				<MainContent>
-					<p>yo</p>
 					<Outlet />
 				</MainContent>
 			</MainContainer>

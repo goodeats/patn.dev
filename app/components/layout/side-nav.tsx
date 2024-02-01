@@ -1,4 +1,5 @@
-import { Link } from '@remix-run/react'
+import { Link, NavLink } from '@remix-run/react'
+import { cn } from '#app/utils/misc'
 
 const SideNavWrapper = ({ children }: { children: React.ReactNode }) => {
 	return <div className="relative col-span-1">{children}</div>
@@ -41,8 +42,32 @@ const SideNavListItem = ({ children }: { children: React.ReactNode }) => {
 	return <li className="p-1 pr-0">{children}</li>
 }
 
-const sideNavLinkDefaultClassName =
-	'line-clamp-2 block rounded-l-full py-2 pl-8 pr-6 text-base lg:text-xl'
+const SideNavLink = ({
+	children,
+	to,
+	className,
+}: {
+	children: React.ReactNode
+	to: string
+	className?: string
+}) => {
+	return (
+		<NavLink
+			to={to}
+			preventScrollReset
+			prefetch="intent"
+			className={({ isActive }) =>
+				cn(
+					'line-clamp-2 block rounded-l-full py-2 pl-8 pr-6 text-base lg:text-xl',
+					isActive && 'bg-accent',
+					className,
+				)
+			}
+		>
+			{children}
+		</NavLink>
+	)
+}
 
 export {
 	SideNavWrapper,
@@ -51,5 +76,5 @@ export {
 	SideNavHeaderTitle,
 	SideNavList,
 	SideNavListItem,
-	sideNavLinkDefaultClassName,
+	SideNavLink,
 }
