@@ -45,7 +45,7 @@ export default function AdminRoute() {
 			<MainContainer>
 				<SideNavWrapper>
 					<SideNavContainer>
-						<SideNavHeaderLink to="admin">
+						<SideNavHeaderLink to="/admin">
 							<SideNavHeaderTitle>Admin</SideNavHeaderTitle>
 						</SideNavHeaderLink>
 						<SideNavList>
