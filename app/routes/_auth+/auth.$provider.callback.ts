@@ -26,6 +26,18 @@ import {
 const destroyRedirectTo = { 'set-cookie': destroyRedirectToHeader }
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
+	const usersCount = await prisma.user.count()
+	if (usersCount > 1) {
+		throw await redirectWithToast(
+			'/',
+			{
+				type: 'error',
+				title: 'Access Denied',
+				description: 'Pat is the only user',
+			},
+			{ headers: destroyRedirectTo },
+		)
+	}
 	const providerName = ProviderNameSchema.parse(params.provider)
 	const redirectTo = getRedirectCookieValue(request)
 	const label = providerLabels[providerName]
