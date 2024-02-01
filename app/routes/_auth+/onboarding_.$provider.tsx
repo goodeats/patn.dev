@@ -84,6 +84,14 @@ async function requireData({
 }
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
+	const usersCount = await prisma.user.count()
+	if (usersCount > 1) {
+		return redirectWithToast('/', {
+			type: 'error',
+			title: 'Access Denied',
+			description: 'Pat is the only user',
+		})
+	}
 	const { email } = await requireData({ request, params })
 	const authSession = await authSessionStorage.getSession(
 		request.headers.get('cookie'),

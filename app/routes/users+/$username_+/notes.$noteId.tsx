@@ -6,13 +6,7 @@ import {
 	type LoaderFunctionArgs,
 	type ActionFunctionArgs,
 } from '@remix-run/node'
-import {
-	Form,
-	Link,
-	useActionData,
-	useLoaderData,
-	type MetaFunction,
-} from '@remix-run/react'
+import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
 import { formatDistanceToNow } from 'date-fns'
 import { z } from 'zod'
 import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
@@ -27,7 +21,6 @@ import { getNoteImgSrc, useIsPending } from '#app/utils/misc.tsx'
 import { requireUserWithPermission } from '#app/utils/permissions.server.ts'
 import { redirectWithToast } from '#app/utils/toast.server.ts'
 import { userHasPermission, useOptionalUser } from '#app/utils/user.ts'
-import { type loader as notesLoader } from './notes.tsx'
 
 export async function loader({ params }: LoaderFunctionArgs) {
 	const note = await prisma.note.findUnique({
@@ -185,27 +178,27 @@ export function DeleteNote({ id }: { id: string }) {
 	)
 }
 
-export const meta: MetaFunction<
-	typeof loader,
-	{ 'routes/users+/$username_+/notes': typeof notesLoader }
-> = ({ data, params, matches }) => {
-	const notesMatch = matches.find(
-		m => m.id === 'routes/users+/$username_+/notes',
-	)
-	const displayName = notesMatch?.data?.owner.name ?? params.username
-	const noteTitle = data?.note.title ?? 'Note'
-	const noteContentsSummary =
-		data && data.note.content.length > 100
-			? data?.note.content.slice(0, 97) + '...'
-			: 'No content'
-	return [
-		{ title: `${noteTitle} | ${displayName}'s Notes | Epic Notes` },
-		{
-			name: 'description',
-			content: noteContentsSummary,
-		},
-	]
-}
+// export const meta: MetaFunction<
+// 	typeof loader,
+// 	{ 'routes/users+/$username_+/notes': typeof notesLoader }
+// > = ({ data, params, matches }) => {
+// 	const notesMatch = matches.find(
+// 		m => m.id === 'routes/users+/$username_+/notes',
+// 	)
+// 	const displayName = notesMatch?.data?.owner.name ?? params.username
+// 	const noteTitle = data?.note.title ?? 'Note'
+// 	const noteContentsSummary =
+// 		data && data.note.content.length > 100
+// 			? data?.note.content.slice(0, 97) + '...'
+// 			: 'No content'
+// 	return [
+// 		{ title: `${noteTitle} | ${displayName}'s Notes | Epic Notes` },
+// 		{
+// 			name: 'description',
+// 			content: noteContentsSummary,
+// 		},
+// 	]
+// }
 
 export function ErrorBoundary() {
 	return (

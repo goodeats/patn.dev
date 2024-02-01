@@ -23,10 +23,6 @@ import {
 	requireAnonymous,
 	sessionKey,
 } from '#app/utils/auth.server.ts'
-import {
-	ProviderConnectionForm,
-	providerNames,
-} from '#app/utils/connections.tsx'
 import { prisma } from '#app/utils/db.server.ts'
 import { checkHoneypot } from '#app/utils/honeypot.server.ts'
 import { combineResponseInits, useIsPending } from '#app/utils/misc.tsx'
@@ -326,7 +322,7 @@ export default function LoginPage() {
 								</StatusButton>
 							</div>
 						</Form>
-						<ul className="mt-5 flex flex-col gap-5 border-b-2 border-t-2 border-border py-3">
+						{/* <ul className="mt-5 flex flex-col gap-5 border-b-2 border-t-2 border-border py-3">
 							{providerNames.map(providerName => (
 								<li key={providerName}>
 									<ProviderConnectionForm
@@ -336,8 +332,8 @@ export default function LoginPage() {
 									/>
 								</li>
 							))}
-						</ul>
-						<div className="flex items-center justify-center gap-2 pt-6">
+						</ul> */}
+						{/* <div className="flex items-center justify-center gap-2 pt-6">
 							<span className="text-muted-foreground">New here?</span>
 							<Link
 								to={
@@ -348,7 +344,7 @@ export default function LoginPage() {
 							>
 								Create an account
 							</Link>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			</div>

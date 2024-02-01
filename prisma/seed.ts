@@ -1,14 +1,6 @@
-import { faker } from '@faker-js/faker'
 import { promiseHash } from 'remix-utils/promise'
 import { prisma } from '#app/utils/db.server.ts'
-import {
-	cleanupDb,
-	createPassword,
-	createUser,
-	getNoteImages,
-	getUserImages,
-	img,
-} from '#tests/db-utils.ts'
+import { cleanupDb, createPassword, img } from '#tests/db-utils.ts'
 import { insertGitHubUser } from '#tests/mocks/github.ts'
 
 async function seed() {
@@ -56,46 +48,6 @@ async function seed() {
 		},
 	})
 	console.timeEnd('👑 Created roles...')
-
-	const totalUsers = 5
-	console.time(`👤 Created ${totalUsers} users...`)
-	const noteImages = await getNoteImages()
-	const userImages = await getUserImages()
-
-	for (let index = 0; index < totalUsers; index++) {
-		const userData = createUser()
-		await prisma.user
-			.create({
-				select: { id: true },
-				data: {
-					...userData,
-					password: { create: createPassword(userData.username) },
-					image: { create: userImages[index % userImages.length] },
-					roles: { connect: { name: 'user' } },
-					notes: {
-						create: Array.from({
-							length: faker.number.int({ min: 1, max: 3 }),
-						}).map(() => ({
-							title: faker.lorem.sentence(),
-							content: faker.lorem.paragraphs(),
-							images: {
-								create: Array.from({
-									length: faker.number.int({ min: 1, max: 3 }),
-								}).map(() => {
-									const imgNumber = faker.number.int({ min: 0, max: 9 })
-									return noteImages[imgNumber]
-								}),
-							},
-						})),
-					},
-				},
-			})
-			.catch(e => {
-				console.error('Error creating a user:', e)
-				return null
-			})
-	}
-	console.timeEnd(`👤 Created ${totalUsers} users...`)
 
 	console.time(`🐨 Created admin user "pat"`)
 
