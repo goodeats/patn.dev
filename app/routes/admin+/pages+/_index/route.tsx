@@ -23,6 +23,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 			description: true,
 			slug: true,
 			published: true,
+			order: true,
 			updatedAt: true,
 		},
 		orderBy: {
@@ -53,15 +54,17 @@ export default function PagesIndexRoute() {
 				<TableCaption>A list of your pages.</TableCaption>
 				<TableHeader>
 					<TableRow>
+						<TableHead className="w-[100px]">Order</TableHead>
 						<TableHead>Page</TableHead>
 						<TableHead>Published</TableHead>
-						<TableHead>Date</TableHead>
+						<TableHead className="text-right">Date</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
 					{pages.map(page => {
 						return (
 							<TableRow key={page.id}>
+								<TableCell>{page.order}</TableCell>
 								<TableCell>
 									<Link to={page.slug}>{page.name}</Link>
 								</TableCell>

@@ -77,6 +77,7 @@ test('Users can create page that is not published', async ({ page, login }) => {
 	await page
 		.getByRole('textbox', { name: 'description' })
 		.fill(newPage.description)
+	// leave published unchecked
 
 	// submit
 	await page.getByRole('button', { name: 'submit' }).click()
