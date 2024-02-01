@@ -70,6 +70,14 @@ export async function requireAnonymous(request: Request) {
 	}
 }
 
+export async function requireAdminUserId(request: Request) {
+	const userId = await getUserId(request)
+	if (!userId) {
+		throw redirect('/')
+	}
+	return userId
+}
+
 export async function login({
 	username,
 	password,
