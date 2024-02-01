@@ -32,7 +32,27 @@ const test = base.extend<{
 	},
 })
 
-test('onboarding with link', async ({ page, getOnboardingData }) => {
+test('onboarding not allowed', async ({ page, getOnboardingData }) => {
+	await page.goto('/')
+
+	// no login link
+	const loginLink = page.getByRole('link', { name: /log in/i })
+	await expect(loginLink).not.toBeVisible()
+
+	await page.goto('/login')
+
+	// no create account link
+	const createAccountLink = page.getByRole('link', {
+		name: /create an account/i,
+	})
+	await expect(createAccountLink).not.toBeVisible()
+
+	// signup page redirects to home
+	await page.goto('/signup')
+	await expect(page).toHaveURL(`/`)
+})
+
+test.skip('onboarding with link', async ({ page, getOnboardingData }) => {
 	const onboardingData = getOnboardingData()
 
 	await page.goto('/')
@@ -102,7 +122,10 @@ test('onboarding with link', async ({ page, getOnboardingData }) => {
 	await expect(page).toHaveURL(`/`)
 })
 
-test('onboarding with a short code', async ({ page, getOnboardingData }) => {
+test.skip('onboarding with a short code', async ({
+	page,
+	getOnboardingData,
+}) => {
 	const onboardingData = getOnboardingData()
 
 	await page.goto('/signup')

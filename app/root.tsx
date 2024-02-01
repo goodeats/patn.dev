@@ -237,13 +237,7 @@ function App() {
 							{searchBar}
 						</div>
 						<div className="flex items-center gap-10">
-							{user ? (
-								<UserDropdown />
-							) : (
-								<Button asChild variant="default" size="lg">
-									<Link to="/login">Log In</Link>
-								</Button>
-							)}
+							{user && <UserDropdown />}
 						</div>
 						<div className="block w-full sm:hidden">{searchBar}</div>
 					</nav>

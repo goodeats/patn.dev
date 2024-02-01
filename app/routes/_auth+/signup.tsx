@@ -6,6 +6,7 @@ import {
 	redirect,
 	type ActionFunctionArgs,
 	type MetaFunction,
+	type LoaderFunctionArgs,
 } from '@remix-run/node'
 import { Form, useActionData, useSearchParams } from '@remix-run/react'
 import { HoneypotInputs } from 'remix-utils/honeypot/react'
@@ -21,12 +22,26 @@ import { prisma } from '#app/utils/db.server.ts'
 import { sendEmail } from '#app/utils/email.server.ts'
 import { checkHoneypot } from '#app/utils/honeypot.server.ts'
 import { useIsPending } from '#app/utils/misc.tsx'
+import { redirectWithToast } from '#app/utils/toast.server.ts'
 import { EmailSchema } from '#app/utils/user-validation.ts'
 import { prepareVerification } from './verify.tsx'
 
 const SignupSchema = z.object({
 	email: EmailSchema,
 })
+
+export async function loader({ request }: LoaderFunctionArgs) {
+	const usersCount = await prisma.user.count()
+	if (usersCount > 1) {
+		return redirectWithToast('/', {
+			type: 'error',
+			title: 'Access Denied',
+			description: 'Pat is the only user',
+		})
+	}
+
+	return json({})
+}
 
 export async function action({ request }: ActionFunctionArgs) {
 	const formData = await request.formData()
