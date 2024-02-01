@@ -1,4 +1,4 @@
-import { clickLink, expectUniqueText } from '#tests/page-utils'
+import { clickLink, expectHeading, expectUniqueText } from '#tests/page-utils'
 import { expect, test } from '#tests/playwright-utils.ts'
 import { insertPage } from './pages-utils'
 
@@ -14,21 +14,19 @@ test.describe('User can view Admin Page', () => {
 	test('when logged in as admin', async ({ page, login }) => {
 		await login()
 		const newPage = await insertPage({})
-		const testUrl = `/admin/pages/${newPage.slug}`
+		const testRoute = `/admin/pages/${newPage.slug}`
 
-		await page.goto(testUrl)
-		await expect(page).toHaveURL(testUrl)
+		await page.goto(testRoute)
+		await expect(page).toHaveURL(testRoute)
 
 		// edit link
 		await clickLink(page, 'edit')
-		await expect(page).toHaveURL(`/admin/pages/${newPage.slug}/edit`)
+		await expect(page).toHaveURL(`${testRoute}/edit`)
 		await clickLink(page, 'cancel')
-		await page.goto(testUrl)
+		await page.goto(testRoute)
 
 		// main content
-		await expect(
-			page.getByRole('heading', { name: newPage.name }),
-		).toBeVisible()
+		await expectHeading(page, newPage.name)
 		await expectUniqueText(page, newPage.description)
 		await expectUniqueText(page, 'Published')
 	})

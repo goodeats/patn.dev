@@ -1,4 +1,11 @@
-import { expectUniqueText } from '#tests/page-utils'
+import {
+	checkCheckbox,
+	clickButton,
+	expectHeading,
+	expectUniqueText,
+	fillInput,
+	uncheckCheckbox,
+} from '#tests/page-utils'
 import { expect, test } from '#tests/playwright-utils.ts'
 import { createPage, insertPage } from './pages-utils'
 
@@ -15,28 +22,27 @@ test.describe('User can update Admin Pages', () => {
 	test('when logged in as admin', async ({ page, login }) => {
 		await login()
 		const newPage = await insertPage({})
+		const testRoute = `/admin/pages/${newPage.slug}/edit`
 
-		await page.goto(`/admin/pages/${newPage.slug}/edit`)
-		await expect(page).toHaveURL(`/admin/pages/${newPage.slug}/edit`)
+		await page.goto(testRoute)
+		await expect(page).toHaveURL(testRoute)
 
 		// main content
-		await expect(
-			page.getByRole('heading', { name: 'Edit Page', exact: true }),
-		).toBeVisible()
+		await expectHeading(page, 'Edit Page')
 	})
 })
 
-test('Users will see error if no name', async ({ page, login }) => {
+test('Users will see errors for required fields', async ({ page, login }) => {
 	await login()
 	const newPage = await insertPage({})
 	const testUrl = `/admin/pages/${newPage.slug}/edit`
 	await page.goto(testUrl)
 
 	// clear name and description
-	await page.getByRole('textbox', { name: 'name' }).fill('')
-	await page.getByRole('textbox', { name: 'description' }).fill('')
+	await fillInput(page, 'name', '')
+	await fillInput(page, 'description', '')
 	// submit
-	await page.getByRole('button', { name: 'submit' }).click()
+	await clickButton(page, 'submit')
 
 	// expect page to not be created
 	await expect(page).toHaveURL(testUrl)
@@ -54,41 +60,34 @@ test('Users will see error if duplicate name', async ({ page, login }) => {
 	await page.goto(testUrl)
 
 	// clear name and description
-	await page.getByRole('textbox', { name: 'name' }).fill(otherPage.name)
+	await fillInput(page, 'name', otherPage.name)
 	// submit
-	await page.getByRole('button', { name: 'submit' }).click()
+	await clickButton(page, 'submit')
 
 	// expect page to not be created
 	await expect(page).toHaveURL(testUrl)
-	const nameAlreadyExists = await page
-		.getByText('Page with that name already exists')
-		.first()
-	await expect(nameAlreadyExists).toBeVisible()
+	await expectUniqueText(page, 'Page with that name already exists')
 })
 
 test('Users can update page that is published', async ({ page, login }) => {
 	await login()
 	const newPage = await insertPage({ overrides: { published: true } })
-	const testUrl = `/admin/pages/${newPage.slug}`
-	await page.goto(`${testUrl}/edit`)
+	const testRoute = `/admin/pages/${newPage.slug}`
+	await page.goto(`${testRoute}/edit`)
 
 	const updatedPage = createPage()
 
 	// fill in form
-	await page.getByRole('textbox', { name: 'name' }).fill(updatedPage.name)
-	await page
-		.getByRole('textbox', { name: 'description' })
-		.fill(updatedPage.description)
-	await page.getByLabel(/publish/i).check()
+	await fillInput(page, 'name', updatedPage.name)
+	await fillInput(page, 'description', updatedPage.description)
+	await checkCheckbox(page, 'publish')
 
 	// submit
-	await page.getByRole('button', { name: 'submit' }).click()
+	await clickButton(page, 'submit')
 
 	// expect page to be updated
 	await expect(page).toHaveURL(`/admin/pages/${updatedPage.slug}`)
-	await expect(
-		page.getByRole('heading', { name: updatedPage.name }),
-	).toBeVisible()
+	await expectHeading(page, updatedPage.name)
 	await expectUniqueText(page, 'Published')
 	await expectUniqueText(page, updatedPage.description)
 	await expectUniqueText(page, 'less than a minute ago')
@@ -97,27 +96,23 @@ test('Users can update page that is published', async ({ page, login }) => {
 test('Users can create page that is not published', async ({ page, login }) => {
 	await login()
 	const newPage = await insertPage({})
-	const testUrl = `/admin/pages/${newPage.slug}`
-	await page.goto(`${testUrl}/edit`)
+	const testRoute = `/admin/pages/${newPage.slug}`
+	await page.goto(`${testRoute}/edit`)
 
 	const updatedPage = createPage()
 
 	// fill in form
-	await page.getByRole('textbox', { name: 'name' }).fill(updatedPage.name)
-	await page
-		.getByRole('textbox', { name: 'description' })
-		.fill(updatedPage.description)
-	await page.getByLabel(/publish/i).uncheck()
+	await fillInput(page, 'name', updatedPage.name)
+	await fillInput(page, 'description', updatedPage.description)
+	await uncheckCheckbox(page, 'publish')
 
 	// submit
-	await page.getByRole('button', { name: 'submit' }).click()
+	await clickButton(page, 'submit')
 
 	// expect page to be updated
 	await expect(page).toHaveURL(`/admin/pages/${updatedPage.slug}`)
-	await expect(
-		page.getByRole('heading', { name: updatedPage.name }),
-	).toBeVisible()
-	await expectUniqueText(page, 'Published')
+	await expectHeading(page, updatedPage.name)
+	await expectUniqueText(page, 'Not Published')
 	await expectUniqueText(page, updatedPage.description)
 	await expectUniqueText(page, 'less than a minute ago')
 })

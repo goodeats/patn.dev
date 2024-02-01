@@ -10,6 +10,12 @@ export const expectUniqueText = async (page: Page, text: string) => {
 	await expect(element).toBeVisible()
 }
 
+export const expectHeading = async (page: Page, name: string) => {
+	await expect(
+		page.getByRole('heading', { name: new RegExp(name, 'i') }),
+	).toBeVisible()
+}
+
 export const clickLink = async (page: Page, name: string) => {
 	await page.getByRole('link', { name: new RegExp(name, 'i') }).click()
 }
@@ -67,6 +73,18 @@ export const fillSubmitForm = async ({
 	if (submit) {
 		await page.getByRole('button', { name: /submit/i }).click()
 	}
+}
+
+export const fillInput = async (page: Page, name: string, value: string) => {
+	await page.getByRole('textbox', { name: new RegExp(name, 'i') }).fill(value)
+}
+
+export const checkCheckbox = async (page: Page, name: string) => {
+	await page.getByLabel(name).check()
+}
+
+export const uncheckCheckbox = async (page: Page, name: string) => {
+	await page.getByLabel(name).uncheck()
 }
 
 export async function pageLocateTable(page: Page) {

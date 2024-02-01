@@ -1,6 +1,7 @@
 import { prisma } from '#app/utils/db.server'
 import {
 	clickLink,
+	expectHeading,
 	expectPageTableHeaders,
 	expectPageTableRowContent,
 	pageTableRowCount,
@@ -18,22 +19,20 @@ test.describe('Users cannot view Admin Pages', () => {
 test.describe('User can view Admin Pages', () => {
 	test('when logged in as admin', async ({ page, login }) => {
 		await login()
+		const testRoute = '/admin/pages'
 		await prisma.page.deleteMany()
 		const newPage = await insertPage({})
 
-		await page.goto('/admin/pages')
-		await expect(page).toHaveURL('/admin/pages')
+		await page.goto(testRoute)
+		await expect(page).toHaveURL(testRoute)
 
 		// new link
-		const newLink = page.getByRole('link', { name: /add page/i })
-		await newLink.click()
-		await expect(page).toHaveURL('/admin/pages/new')
-		await page.goto('/admin/pages')
+		await clickLink(page, 'add page')
+		await expect(page).toHaveURL(`${testRoute}/new`)
+		await page.goto(testRoute)
 
 		// main content
-		await expect(
-			page.getByRole('heading', { name: 'Pages', exact: true }),
-		).toBeVisible()
+		await expectHeading(page, 'Pages')
 
 		// table content
 		await expectPageTableHeaders(page, ['Order', 'Page', 'Published', 'Date'])
@@ -44,7 +43,7 @@ test.describe('User can view Admin Pages', () => {
 
 		// table link to page
 		await clickLink(page, newPage.name)
-		await expect(page).toHaveURL(`/admin/pages/${newPage.slug}`)
+		await expect(page).toHaveURL(`${testRoute}/${newPage.slug}`)
 
 		await prisma.page.deleteMany()
 	})
