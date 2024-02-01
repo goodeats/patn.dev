@@ -9,7 +9,7 @@ import {
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { createId as cuid } from '@paralleldrive/cuid2'
-import { type Note, type NoteImage } from '@prisma/client'
+import { type Note, type Image } from '@prisma/client'
 import {
 	unstable_createMemoryUploadHandler as createMemoryUploadHandler,
 	json,
@@ -179,7 +179,7 @@ export function NoteEditor({
 }: {
 	note?: SerializeFrom<
 		Pick<Note, 'id' | 'title' | 'content'> & {
-			images: Array<Pick<NoteImage, 'id' | 'altText'>>
+			images: Array<Pick<Image, 'id' | 'altText'>>
 		}
 	>
 }) {
