@@ -12,5 +12,9 @@ test.describe('User can view Admin', () => {
 		await login()
 		await page.goto('/admin')
 		await expect(page).toHaveURL('/admin')
+
+		// sidebar content
+		const adminLink = page.getByRole('link', { name: /admin/i })
+		await expect(adminLink).toBeVisible()
 	})
 })
