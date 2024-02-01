@@ -9,12 +9,12 @@ import {
 import { Form, Link, useActionData, useLoaderData } from '@remix-run/react'
 import { formatDistanceToNow } from 'date-fns'
 import { z } from 'zod'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
-import { floatingToolbarClassName } from '#app/components/floating-toolbar.tsx'
-import { ErrorList } from '#app/components/forms.tsx'
-import { Button } from '#app/components/ui/button.tsx'
-import { Icon } from '#app/components/ui/icon.tsx'
-import { StatusButton } from '#app/components/ui/status-button.tsx'
+import {
+	GeneralErrorBoundary,
+	floatingToolbarClassName,
+} from '#app/components/layout'
+import { ErrorList, StatusButton } from '#app/components/templates'
+import { Button, Icon } from '#app/components/ui'
 import { requireUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
 import { getNoteImgSrc, useIsPending } from '#app/utils/misc.tsx'
