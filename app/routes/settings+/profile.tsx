@@ -8,7 +8,6 @@ import { Icon } from '#app/components/ui'
 import { requireUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
 import { cn } from '#app/utils/misc.tsx'
-import { useUser } from '#app/utils/user.ts'
 
 export const BreadcrumbHandle = z.object({ breadcrumb: z.any() })
 export type BreadcrumbHandle = z.infer<typeof BreadcrumbHandle>
@@ -33,7 +32,6 @@ const BreadcrumbHandleMatch = z.object({
 })
 
 export default function EditUserProfile() {
-	const user = useUser()
 	const matches = useMatches()
 	const breadcrumbs = matches
 		.map(m => {
@@ -52,11 +50,8 @@ export default function EditUserProfile() {
 			<div className="container">
 				<ul className="flex gap-3">
 					<li>
-						<Link
-							className="text-muted-foreground"
-							to={`/users/${user.username}`}
-						>
-							Profile
+						<Link className="text-muted-foreground" to="/admin">
+							Admin
 						</Link>
 					</li>
 					{breadcrumbs.map((breadcrumb, i, arr) => (

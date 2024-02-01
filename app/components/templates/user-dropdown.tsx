@@ -40,8 +40,15 @@ export const UserDropdown = () => {
 			<DropdownMenuPortal>
 				<DropdownMenuContent sideOffset={8} align="start">
 					<DropdownMenuItem asChild>
-						<Link prefetch="intent" to={`/users/${user.username}`}>
+						<Link prefetch="intent" to="/admin">
 							<Icon className="text-body-md" name="avatar">
+								Admin
+							</Icon>
+						</Link>
+					</DropdownMenuItem>
+					<DropdownMenuItem asChild>
+						<Link prefetch="intent" to="/settings/profile">
+							<Icon className="text-body-md" name="gear">
 								Profile
 							</Icon>
 						</Link>

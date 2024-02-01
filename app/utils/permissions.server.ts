@@ -1,5 +1,5 @@
 import { json } from '@remix-run/node'
-import { requireUserId } from './auth.server.ts'
+import { requireAdminUserId, requireUserId } from './auth.server.ts'
 import { prisma } from './db.server.ts'
 import { type PermissionString, parsePermissionString } from './user.ts'
 
@@ -52,6 +52,25 @@ export async function requireUserWithRole(request: Request, name: string) {
 				error: 'Unauthorized',
 				requiredRole: name,
 				message: `Unauthorized: required role: ${name}`,
+			},
+			{ status: 403 },
+		)
+	}
+	return user.id
+}
+
+export async function requireUserWithAdminRole(request: Request) {
+	const userId = await requireAdminUserId(request)
+	const user = await prisma.user.findFirst({
+		select: { id: true },
+		where: { id: userId, roles: { some: { name: 'admin' } } },
+	})
+	if (!user) {
+		throw json(
+			{
+				error: 'Unauthorized',
+				requiredRole: 'admin',
+				message: `Unauthorized: required role: admin`,
 			},
 			{ status: 403 },
 		)
