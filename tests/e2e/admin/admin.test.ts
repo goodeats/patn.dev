@@ -28,6 +28,6 @@ test.describe('User can view Admin', () => {
 		await page.goto(testRoute)
 
 		// main content
-		await expectHeading(page, 'Admin')
+		await expectHeading(page, 'Welcome Admin')
 	})
 })
