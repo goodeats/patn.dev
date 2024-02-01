@@ -1,4 +1,3 @@
-import { invariantResponse } from '@epic-web/invariant'
 import { type SEOHandle } from '@nasa-gcn/remix-seo'
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
 import { Outlet } from '@remix-run/react'
@@ -15,7 +14,6 @@ import {
 	SideNavListItem,
 	SideNavLink,
 } from '#app/components/layout'
-import { prisma } from '#app/utils/db.server'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server.ts'
 
 export const handle: SEOHandle = {
@@ -23,19 +21,7 @@ export const handle: SEOHandle = {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-	const adminId = await requireUserWithAdminRole(request)
-	const admin = await prisma.user.findFirst({
-		select: {
-			id: true,
-			name: true,
-			username: true,
-			image: { select: { id: true } },
-		},
-		where: { id: adminId },
-	})
-
-	invariantResponse(admin, 'Owner not found', { status: 404 })
-
+	await requireUserWithAdminRole(request)
 	return json({})
 }
 
@@ -51,6 +37,9 @@ export default function AdminRoute() {
 						<SideNavList>
 							<SideNavListItem>
 								<SideNavLink to="/settings/profile">Profile</SideNavLink>
+							</SideNavListItem>
+							<SideNavListItem>
+								<SideNavLink to="pages">Pages</SideNavLink>
 							</SideNavListItem>
 						</SideNavList>
 					</SideNavContainer>
