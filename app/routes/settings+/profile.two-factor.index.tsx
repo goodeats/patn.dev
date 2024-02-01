@@ -7,7 +7,7 @@ import {
 } from '@remix-run/node'
 import { Link, useFetcher, useLoaderData } from '@remix-run/react'
 import { StatusButton } from '#app/components/templates/index.ts'
-import { Icon } from '#app/components/ui/icon.tsx'
+import { Icon } from '#app/components/ui/index.ts'
 import { requireUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
 import { generateTOTP } from '#app/utils/totp.server.ts'

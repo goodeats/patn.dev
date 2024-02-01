@@ -10,13 +10,13 @@ import {
 import { useFetcher, useLoaderData } from '@remix-run/react'
 import { useState } from 'react'
 import { StatusButton } from '#app/components/templates/index.ts'
-import { Icon } from '#app/components/ui/icon.tsx'
 import {
+	Icon,
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from '#app/components/ui/tooltip.tsx'
+} from '#app/components/ui/index.ts'
 import { requireUserId } from '#app/utils/auth.server.ts'
 import { resolveConnectionData } from '#app/utils/connections.server.ts'
 import {

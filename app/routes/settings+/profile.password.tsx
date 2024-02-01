@@ -11,8 +11,7 @@ import { Form, Link, useActionData } from '@remix-run/react'
 import { z } from 'zod'
 import { ErrorList, Field } from '#app/components/forms.tsx'
 import { StatusButton } from '#app/components/templates/index.ts'
-import { Button } from '#app/components/ui/button.tsx'
-import { Icon } from '#app/components/ui/icon.tsx'
+import { Button, Icon } from '#app/components/ui/index.ts'
 import {
 	getPasswordHash,
 	requireUserId,
