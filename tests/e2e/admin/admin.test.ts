@@ -22,5 +22,10 @@ test.describe('User can view Admin', () => {
 		await profileLink.click()
 		await expect(page).toHaveURL('/settings/profile')
 		await page.goto('/admin')
+
+		// main content
+		await expect(
+			page.getByRole('heading', { name: 'Welcome Admin', exact: true }),
+		).toBeVisible()
 	})
 })

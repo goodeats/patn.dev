@@ -1,6 +1,6 @@
 import { cn } from '#app/utils/misc'
 
-const MainContent = ({
+const MainContentWrapper = ({
 	children,
 	className,
 }: {
@@ -19,34 +19,20 @@ const MainContent = ({
 	)
 }
 
+const MainContentContainer = ({ children }: { children: React.ReactNode }) => {
+	return <div className="absolute inset-0 flex flex-col px-10">{children}</div>
+}
+
 const ContentHeader = ({
 	children,
-	title,
 	className,
 }: {
 	children: React.ReactNode
-	title?: string | React.ReactNode
 	className?: string
 }) => {
-	const ContentHeaderTitle = () => {
-		if (typeof title === 'string') {
-			return <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
-		}
-
-		return title
-	}
-
 	return (
-		<div
-			className={cn(
-				'container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16',
-				className,
-			)}
-		>
-			{title && <ContentHeaderTitle />}
-			{children}
-		</div>
+		<h2 className={cn('mb-2 pt-4 text-h2 lg:mb-6', className)}>{children}</h2>
 	)
 }
 
-export { MainContent, ContentHeader }
+export { MainContentWrapper, MainContentContainer, ContentHeader }

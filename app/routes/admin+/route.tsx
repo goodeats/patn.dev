@@ -6,7 +6,7 @@ import {
 	MainContainer,
 	GeneralErrorBoundary,
 	MainWrapper,
-	MainContent,
+	MainContentWrapper,
 	SideNavWrapper,
 	SideNavContainer,
 	SideNavHeaderLink,
@@ -55,9 +55,9 @@ export default function AdminRoute() {
 						</SideNavList>
 					</SideNavContainer>
 				</SideNavWrapper>
-				<MainContent>
+				<MainContentWrapper>
 					<Outlet />
-				</MainContent>
+				</MainContentWrapper>
 			</MainContainer>
 		</MainWrapper>
 	)
