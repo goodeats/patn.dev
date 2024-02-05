@@ -1,6 +1,7 @@
 {
 	"name": "Pat Needham",
 	"short_name": "Pat Needham",
+  "description": "Pat Needham's software engineer portfolio website",
 	"start_url": "/",
 	"icons": [
 		{
