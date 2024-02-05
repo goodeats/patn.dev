@@ -203,7 +203,7 @@ export async function handleVerification({ submission }: VerifyFunctionArgs) {
 }
 
 export const meta: MetaFunction = () => {
-	return [{ title: 'Setup Epic Notes Account' }]
+	return [{ title: 'Setup Pat Needham Account' }]
 }
 
 export default function SignupRoute() {
