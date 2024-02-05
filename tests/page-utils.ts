@@ -10,6 +10,11 @@ export const expectUniqueText = async (page: Page, text: string) => {
 	await expect(element).toBeVisible()
 }
 
+export const expectNoUniqueText = async (page: Page, text: string) => {
+	const element = await page.getByText(text).first()
+	await expect(element).not.toBeVisible()
+}
+
 export const expectHeading = async (page: Page, name: string) => {
 	await expect(
 		page.getByRole('heading', { name: new RegExp(name, 'i') }),
