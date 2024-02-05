@@ -2,6 +2,7 @@ import { invariant } from '@epic-web/invariant'
 import { faker } from '@faker-js/faker'
 import { prisma } from '#app/utils/db.server.ts'
 import { readEmail } from '#tests/mocks/utils.ts'
+import { clickLink } from '#tests/page-utils'
 import { createUser, expect, test as base } from '#tests/playwright-utils.ts'
 
 const URL_REGEX = /(?<url>https?:\/\/[^\s$.?#].[^\s]*)/
@@ -32,7 +33,13 @@ const test = base.extend<{
 	},
 })
 
-test('onboarding not allowed', async ({ page, getOnboardingData }) => {
+test('onboarding not allowed', async ({ page, login }) => {
+	// create user then logout to ensure there is already a user
+	const user = await login()
+	await page.goto('/')
+	await clickLink(page, user.name || user.username)
+	await page.getByRole('menuitem', { name: 'Logout' }).click()
+
 	await page.goto('/')
 
 	// no login link

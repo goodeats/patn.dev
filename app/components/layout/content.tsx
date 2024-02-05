@@ -35,4 +35,15 @@ const ContentHeader = ({
 	)
 }
 
-export { MainContentWrapper, MainContentContainer, ContentHeader }
+const ContentSection = ({ children }: { children: React.ReactNode }) => {
+	return (
+		<div className="mb-4 flex items-center justify-between">{children}</div>
+	)
+}
+
+export {
+	MainContentWrapper,
+	MainContentContainer,
+	ContentHeader,
+	ContentSection,
+}

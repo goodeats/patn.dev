@@ -1,6 +1,7 @@
 export * from './badge'
 export * from './button'
 export * from './checkbox'
+export * from './dialog'
 export * from './dropdown-menu'
 export * from './icon'
 export * from './input'

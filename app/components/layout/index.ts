@@ -1,5 +1,6 @@
 export * from './container'
 export * from './content'
 export * from './error-boundary'
-export * from './floating-toolbar'
+export * from './footer'
+export * from './form'
 export * from './side-nav'

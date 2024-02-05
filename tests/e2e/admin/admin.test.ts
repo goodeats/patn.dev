@@ -1,3 +1,4 @@
+import { clickLink, expectHeading } from '#tests/page-utils'
 import { expect, test } from '#tests/playwright-utils.ts'
 
 test.describe('Users cannot view Admin', () => {
@@ -10,22 +11,23 @@ test.describe('Users cannot view Admin', () => {
 test.describe('User can view Admin', () => {
 	test('when logged in as admin', async ({ page, login }) => {
 		await login()
-		await page.goto('/admin')
-		await expect(page).toHaveURL('/admin')
+		const testRoute = '/admin'
+		await page.goto(testRoute)
+		await expect(page).toHaveURL(testRoute)
 
 		// sidebar content
-		const adminLink = page.getByRole('link', { name: /admin/i })
-		await adminLink.click()
-		await expect(page).toHaveURL('/admin')
+		await clickLink(page, 'admin')
+		await expect(page).toHaveURL(testRoute)
 
-		const profileLink = page.getByRole('link', { name: /profile/i })
-		await profileLink.click()
+		await clickLink(page, 'profile')
 		await expect(page).toHaveURL('/settings/profile')
-		await page.goto('/admin')
+		await page.goto(testRoute)
+
+		await clickLink(page, 'pages')
+		await expect(page).toHaveURL('/admin/pages')
+		await page.goto(testRoute)
 
 		// main content
-		await expect(
-			page.getByRole('heading', { name: 'Welcome Admin', exact: true }),
-		).toBeVisible()
+		await expectHeading(page, 'Welcome Admin')
 	})
 })
