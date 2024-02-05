@@ -1,6 +1,7 @@
 import { promiseHash } from 'remix-utils/promise'
 import { prisma } from '#app/utils/db.server.ts'
 import { cleanupDb, createPassword, img } from '#tests/db-utils.ts'
+import { createPages } from '#tests/e2e/admin/pages/pages-utils'
 import { insertGitHubUser } from '#tests/mocks/github.ts'
 
 async function seed() {
@@ -50,38 +51,7 @@ async function seed() {
 	console.timeEnd('👑 Created roles...')
 
 	console.time('📄 Created pages...')
-	const pages = [
-		{
-			name: 'Home',
-			description: 'Landing page for the website.',
-			slug: 'home',
-			published: true,
-		},
-		{
-			name: 'Projects',
-			description: 'A list of projects I have worked on.',
-			slug: 'projects',
-			published: true,
-		},
-		{
-			name: 'Blog',
-			description: 'A collection of my thoughts and experiences.',
-			slug: 'blog',
-			published: true,
-		},
-		{
-			name: 'About',
-			description: 'A little bit about me.',
-			slug: 'about',
-			published: true,
-		},
-		{
-			name: 'Contact',
-			description: 'Get in touch with me.',
-			slug: 'contact',
-			published: true,
-		},
-	]
+	const pages = createPages
 	for (let i = 0; i < pages.length; i++) {
 		await prisma.page.create({ data: { ...pages[i], order: i } })
 	}

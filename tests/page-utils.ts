@@ -1,4 +1,4 @@
-import { type Page } from '@playwright/test'
+import { type Locator, type Page } from '@playwright/test'
 import { expect, type RoleType } from '#tests/playwright-utils.ts'
 
 // https://playwright.dev/docs/locators
@@ -125,11 +125,17 @@ export async function pageTableRow(page: Page, row: number = 0) {
 export async function expectPageTableRowContent(
 	page: Page,
 	row: number,
-	content: string[],
+	content: Array<string | Locator>,
 ) {
 	const tableRow = await pageTableRow(page, row)
 	for (let i = 0; i < content.length; i++) {
 		const cellContent = content[i]
-		await expect(tableRow.getByRole('cell').nth(i)).toHaveText(cellContent)
+		const tableCell = tableRow.getByRole('cell').nth(i)
+		if (typeof cellContent === 'string') {
+			await expect(tableCell).toHaveText(cellContent)
+		} else {
+			// i.e., button, checkbox, etc.
+			await expect(tableCell.locator(cellContent)).toBeVisible()
+		}
 	}
 }
