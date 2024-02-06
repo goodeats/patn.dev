@@ -1,15 +1,13 @@
 import { getFormProps, useForm } from '@conform-to/react'
 import { useFetcher } from '@remix-run/react'
-import { type action } from '#app/root'
+import { useRootLoaderData, type action } from '#app/root'
 import { useOptimisticThemeMode } from '#app/utils/theme'
-import { type Theme } from '#app/utils/theme.server'
 import { Icon } from '../ui'
 
-export const ThemeSwitch = ({
-	userPreference,
-}: {
-	userPreference?: Theme | null
-}) => {
+export const ThemeSwitch = () => {
+	const { requestInfo } = useRootLoaderData()
+	const userPreference = requestInfo.userPrefs.theme
+
 	const fetcher = useFetcher<typeof action>()
 
 	const [form] = useForm({
