@@ -36,10 +36,16 @@ test.describe('User can view Admin Pages', () => {
 		await expectHeading(page, 'Pages')
 
 		// table content
-		await expectPageTableHeaders(page, ['Order', 'Page', 'Published', 'Date'])
+		await expectPageTableHeaders(page, [
+			'Order',
+			'Page',
+			'Published',
+			'Posts',
+			'Date',
+		])
 		const rowCount = await pageTableRowCount(page)
 		const pageUpdatedAt = new Date().toLocaleDateString()
-		const rowContent = ['0', newPage.name, 'No', pageUpdatedAt]
+		const rowContent = ['0', newPage.name, 'No', '0', pageUpdatedAt]
 		await expectPageTableRowContent(page, rowCount - 1, rowContent)
 
 		// table link to page
@@ -73,6 +79,7 @@ test.describe('User can view Admin Pages', () => {
 				i.toString(),
 				thisPage.name,
 				'Yes',
+				'0',
 				pageUpdatedAt,
 				actions,
 			]

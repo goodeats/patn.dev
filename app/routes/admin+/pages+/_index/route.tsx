@@ -43,6 +43,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 			published: true,
 			order: true,
 			updatedAt: true,
+			posts: {
+				select: {
+					id: true,
+				},
+			},
 		},
 		orderBy: {
 			order: 'asc',
@@ -77,24 +82,27 @@ export default function PagesIndexRoute() {
 						<TableHead className="w-[100px]">Order</TableHead>
 						<TableHead>Page</TableHead>
 						<TableHead>Published</TableHead>
+						<TableHead>Posts</TableHead>
 						<TableHead className="text-right">Date</TableHead>
 						<TableHead className="sr-only w-[40px]">Change Order</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
 					{pages.map(page => {
+						const { id, order, slug, name, published, posts, updatedAt } = page
 						return (
-							<TableRow key={page.id}>
-								<TableCell>{page.order}</TableCell>
+							<TableRow key={id}>
+								<TableCell>{order}</TableCell>
 								<TableCell>
-									<Link to={page.slug}>{page.name}</Link>
+									<Link to={slug}>{name}</Link>
 								</TableCell>
-								<TableCell>{page.published ? 'Yes' : 'No'}</TableCell>
+								<TableCell>{published ? 'Yes' : 'No'}</TableCell>
+								<TableCell>{posts.length}</TableCell>
 								<TableCell className="text-right">
-									{new Date(page.updatedAt).toLocaleDateString()}
+									{new Date(updatedAt).toLocaleDateString()}
 								</TableCell>
 								<TableCell className="w-[40px] text-right">
-									<div id={`page-${page.id}-actions`} className="flex gap-2">
+									<div id={`page-${id}-actions`} className="flex gap-2">
 										<EditOrderForm
 											page={page}
 											direction="up"
