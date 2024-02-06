@@ -8,7 +8,7 @@ import {
 import { cn } from '#app/utils/misc.tsx'
 import { logos } from './logos/logos.ts'
 
-export const meta: MetaFunction = () => [{ title: 'Epic Notes' }]
+export const meta: MetaFunction = () => [{ title: 'Pat Needham' }]
 
 // Tailwind Grid cell classes lookup
 const columnClasses: Record<(typeof logos)[number]['column'], string> = {
@@ -52,20 +52,20 @@ export default function Index() {
 						data-heading
 						className="mt-8 animate-slide-top text-4xl font-medium text-foreground [animation-fill-mode:backwards] [animation-delay:0.3s] md:text-5xl xl:mt-4 xl:animate-slide-left xl:text-6xl xl:[animation-fill-mode:backwards] xl:[animation-delay:0.8s]"
 					>
-						<a href="https://www.epicweb.dev/stack">The Epic Stack</a>
+						<a href="https://github.com/goodeats/patn.dev">Pat Needham</a>
 					</h1>
 					<p
 						data-paragraph
 						className="mt-6 animate-slide-top text-xl/7 text-muted-foreground [animation-fill-mode:backwards] [animation-delay:0.8s] xl:mt-8 xl:animate-slide-left xl:text-xl/6 xl:leading-10 xl:[animation-fill-mode:backwards] xl:[animation-delay:1s]"
 					>
-						Check the{' '}
+						Check out the{' '}
 						<a
 							className="underline hover:no-underline"
-							href="https://github.com/epicweb-dev/epic-stack/blob/main/docs/getting-started.md"
+							href="https://github.com/goodeats/patn.dev"
 						>
-							Getting Started guide
+							GitHub Repo
 						</a>{' '}
-						file for how to get your project off the ground!
+						for my portfolio site while it is under construction!
 					</p>
 				</div>
 				<ul className="mt-16 flex max-w-3xl flex-wrap justify-center gap-2 sm:gap-4 xl:mt-0 xl:grid xl:grid-flow-col xl:grid-cols-5 xl:grid-rows-6">
