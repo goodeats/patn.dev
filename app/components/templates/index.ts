@@ -1,4 +1,5 @@
 export * from './checkbox-field'
+export * from './delete-dialog'
 export * from './errors'
 export * from './field'
 export * from './hidden-submit'
