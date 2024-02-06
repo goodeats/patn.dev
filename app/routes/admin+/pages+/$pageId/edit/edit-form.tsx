@@ -124,62 +124,6 @@ export function EditForm({
 		},
 	})
 
-	const FormName = () => {
-		return (
-			<Field
-				labelProps={{ children: 'Name' }}
-				inputProps={{
-					autoFocus: true,
-					...getInputProps(fields.name, { type: 'text' }),
-				}}
-				errors={fields.name.errors}
-			/>
-		)
-	}
-
-	const FormDescription = () => {
-		return (
-			<TextareaField
-				labelProps={{ children: 'Description' }}
-				textareaProps={{
-					...getTextareaProps(fields.description, { ariaAttributes: true }),
-				}}
-				errors={fields.description.errors}
-			/>
-		)
-	}
-
-	const FormPublished = () => {
-		return (
-			<CheckboxField
-				labelProps={{
-					htmlFor: fields.published.id,
-					children: 'Publish',
-				}}
-				buttonProps={getInputProps(fields.published, { type: 'checkbox' })}
-				errors={fields.published.errors}
-			/>
-		)
-	}
-
-	const FormActions = () => {
-		return (
-			<FormActionsContainer>
-				<Button form={form.id} variant="destructive" type="reset">
-					Reset
-				</Button>
-				<StatusButton
-					form={form.id}
-					type="submit"
-					disabled={isPending}
-					status={isPending ? 'pending' : 'idle'}
-				>
-					Submit
-				</StatusButton>
-			</FormActionsContainer>
-		)
-	}
-
 	return (
 		<FormContainer>
 			<FormProvider context={form.context}>
@@ -191,13 +135,53 @@ export function EditForm({
 					<HiddenSubmitButton />
 					<input type="hidden" name="id" value={page.id} />
 					<FormFieldsContainer>
-						<FormName />
-						<FormDescription />
-						<FormPublished />
+						{/* Fields name */}
+						<Field
+							labelProps={{ children: 'Name' }}
+							inputProps={{
+								autoFocus: true,
+								...getInputProps(fields.name, { type: 'text' }),
+							}}
+							errors={fields.name.errors}
+						/>
+						{/* Fields description */}
+						<TextareaField
+							labelProps={{ children: 'Description' }}
+							textareaProps={{
+								...getTextareaProps(fields.description, {
+									ariaAttributes: true,
+								}),
+							}}
+							errors={fields.description.errors}
+						/>
+						{/* Fields published */}
+						<CheckboxField
+							labelProps={{
+								htmlFor: fields.published.id,
+								children: 'Publish',
+							}}
+							buttonProps={getInputProps(fields.published, {
+								type: 'checkbox',
+							})}
+							errors={fields.published.errors}
+						/>
 					</FormFieldsContainer>
 					<ErrorList id={form.errorId} errors={form.errors} />
 				</Form>
-				<FormActions />
+				{/* Form actions */}
+				<FormActionsContainer>
+					<Button form={form.id} variant="destructive" type="reset">
+						Reset
+					</Button>
+					<StatusButton
+						form={form.id}
+						type="submit"
+						disabled={isPending}
+						status={isPending ? 'pending' : 'idle'}
+					>
+						Submit
+					</StatusButton>
+				</FormActionsContainer>
 			</FormProvider>
 		</FormContainer>
 	)

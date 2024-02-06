@@ -62,7 +62,7 @@ test('Users will see error if duplicate name', async ({ page, login }) => {
 	await expectUniqueText(page, 'Page with that name already exists')
 })
 
-test('Users can create page that is published', async ({ page, login }) => {
+test('Users can create page that is not published', async ({ page, login }) => {
 	await login()
 	const testRoute = '/admin/pages/new'
 	await page.goto(testRoute)
@@ -85,7 +85,7 @@ test('Users can create page that is published', async ({ page, login }) => {
 	await expectUniqueText(page, 'less than a minute ago')
 })
 
-test('Users can create page that is not published', async ({ page, login }) => {
+test('Users can create page that is published', async ({ page, login }) => {
 	await login()
 	const testRoute = '/admin/pages/new'
 	await page.goto(testRoute)
