@@ -1,7 +1,7 @@
 import { useOptionalUser } from '#app/utils/user'
 import { Logo, UserDropdown } from '../templates'
 
-const MainHeader = () => {
+const PageHeader = () => {
 	const user = useOptionalUser()
 	return (
 		<header className="container py-6">
@@ -16,4 +16,4 @@ const MainHeader = () => {
 	)
 }
 
-export { MainHeader }
+export { PageHeader }
