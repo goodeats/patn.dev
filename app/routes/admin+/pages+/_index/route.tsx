@@ -1,7 +1,11 @@
 import { type LoaderFunctionArgs } from '@remix-run/node'
 import { Link, json, useLoaderData } from '@remix-run/react'
 import { type DataFunctionArgs } from '@sentry/remix/types/utils/vendor/types'
-import { ContentHeader, ContentSection } from '#app/components/layout'
+import {
+	ContentBody,
+	ContentHeader,
+	ContentSection,
+} from '#app/components/layout'
 import { Button, Icon } from '#app/components/ui'
 import {
 	Table,
@@ -62,7 +66,7 @@ export default function PagesIndexRoute() {
 	const { pages } = data
 
 	return (
-		<div>
+		<ContentBody>
 			<ContentHeader>Pages</ContentHeader>
 			<ContentSection>
 				<div className="ml-auto mr-4">
@@ -120,6 +124,6 @@ export default function PagesIndexRoute() {
 					})}
 				</TableBody>
 			</Table>
-		</div>
+		</ContentBody>
 	)
 }

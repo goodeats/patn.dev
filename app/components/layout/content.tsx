@@ -23,6 +23,12 @@ const MainContentContainer = ({ children }: { children: React.ReactNode }) => {
 	return <div className="absolute inset-0 flex flex-col px-10">{children}</div>
 }
 
+const ContentBody = ({ children }: { children: React.ReactNode }) => {
+	return (
+		<div className="overflow-x-hidden' overflow-y-auto pb-28">{children}</div>
+	)
+}
+
 const ContentHeader = ({
 	children,
 	className,
@@ -41,9 +47,27 @@ const ContentSection = ({ children }: { children: React.ReactNode }) => {
 	)
 }
 
+const ContentCardGrid = ({
+	children,
+	className,
+}: {
+	children: React.ReactNode
+	className?: string
+}) => {
+	return (
+		<div
+			className={cn('grid gap-4 lg:grid-flow-col lg:grid-cols-2', className)}
+		>
+			{children}
+		</div>
+	)
+}
+
 export {
 	MainContentWrapper,
 	MainContentContainer,
+	ContentBody,
 	ContentHeader,
 	ContentSection,
+	ContentCardGrid,
 }

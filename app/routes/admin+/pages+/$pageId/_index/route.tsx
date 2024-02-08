@@ -4,6 +4,8 @@ import { json, useLoaderData } from '@remix-run/react'
 import { type DataFunctionArgs } from '@sentry/remix/types/utils/vendor/types'
 import { formatDistanceToNow } from 'date-fns'
 import {
+	ContentBody,
+	ContentCardGrid,
 	ContentHeader,
 	ContentSection,
 	FooterActions,
@@ -11,7 +13,15 @@ import {
 	FooterIconIndicator,
 	FooterLinkButton,
 } from '#app/components/layout'
-import { Badge } from '#app/components/ui'
+import {
+	Badge,
+	Button,
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from '#app/components/ui'
 import { requireAdminUserId } from '#app/utils/auth.server'
 import { prisma } from '#app/utils/db.server'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server'
@@ -59,14 +69,32 @@ export default function PageDetailsRoute() {
 	const { page } = data
 	const { name, description, published } = page
 	return (
-		<div>
+		<ContentBody>
 			<ContentHeader>{name}</ContentHeader>
 			<ContentSection>
 				<Badge variant={published ? 'secondary' : 'destructive'}>
 					{published ? 'Published' : 'Not Published'}
 				</Badge>
 			</ContentSection>
-			<ContentSection>{description}</ContentSection>
+			<ContentSection>
+				<ContentCardGrid>
+					<Card>
+						<CardHeader>
+							<CardTitle>Description</CardTitle>
+						</CardHeader>
+						<CardContent>{description}</CardContent>
+					</Card>
+					<Card>
+						<CardHeader>
+							<CardTitle>Posts</CardTitle>
+						</CardHeader>
+						<CardContent>posts</CardContent>
+						<CardFooter>
+							<Button>View Posts</Button>
+						</CardFooter>
+					</Card>
+				</ContentCardGrid>
+			</ContentSection>
 			<FooterContainer>
 				<FooterIconIndicator icon="clock">
 					{data.timeAgo} ago
@@ -78,6 +106,6 @@ export default function PageDetailsRoute() {
 					<DeleteForm id={page.id} />
 				</FooterActions>
 			</FooterContainer>
-		</div>
+		</ContentBody>
 	)
 }

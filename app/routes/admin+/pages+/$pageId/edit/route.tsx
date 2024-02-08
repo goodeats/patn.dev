@@ -1,7 +1,11 @@
 import { invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs } from '@remix-run/node'
 import { Link, json, useLoaderData } from '@remix-run/react'
-import { ContentHeader, ContentSection } from '#app/components/layout'
+import {
+	ContentBody,
+	ContentHeader,
+	ContentSection,
+} from '#app/components/layout'
 import { Button, Icon } from '#app/components/ui'
 import { prisma } from '#app/utils/db.server'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server'
@@ -31,7 +35,7 @@ export default function EditPageRoute() {
 	const data = useLoaderData<typeof loader>()
 
 	return (
-		<div>
+		<ContentBody>
 			<ContentHeader>Edit Page</ContentHeader>
 			<ContentSection>
 				<div className="ml-4 mr-auto">
@@ -43,6 +47,6 @@ export default function EditPageRoute() {
 				</div>
 			</ContentSection>
 			<EditForm page={data.page} />
-		</div>
+		</ContentBody>
 	)
 }
