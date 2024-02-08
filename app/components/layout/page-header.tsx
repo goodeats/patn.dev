@@ -10,6 +10,7 @@ const PageHeader = () => {
 
 	const Theme = () => {
 		if (ENV.MODE === 'development') return null
+		console.log(ENV.MODE)
 
 		return <ThemeSwitch />
 	}
