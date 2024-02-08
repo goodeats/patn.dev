@@ -33,6 +33,12 @@ test.describe('User can view Admin Page', () => {
 		await clickLink(page, 'cancel')
 		await page.goto(testRoute)
 
+		// posts link
+		await clickLink(page, 'view posts')
+		await expect(page).toHaveURL(`${testRoute}/posts`)
+		await clickLink(page, 'back')
+		await page.goto(testRoute)
+
 		// main content
 		await expectHeading(page, newPage.name)
 		await expectUniqueText(page, 'Published')

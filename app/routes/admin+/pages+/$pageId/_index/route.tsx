@@ -1,6 +1,6 @@
 import { invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs } from '@remix-run/node'
-import { json, useLoaderData } from '@remix-run/react'
+import { Link, json, useLoaderData } from '@remix-run/react'
 import { type DataFunctionArgs } from '@sentry/remix/types/utils/vendor/types'
 import { formatDistanceToNow } from 'date-fns'
 import {
@@ -90,7 +90,9 @@ export default function PageDetailsRoute() {
 						</CardHeader>
 						<CardContent>posts</CardContent>
 						<CardFooter>
-							<Button>View Posts</Button>
+							<Button asChild>
+								<Link to="posts">View Posts</Link>
+							</Button>
 						</CardFooter>
 					</Card>
 				</ContentCardGrid>

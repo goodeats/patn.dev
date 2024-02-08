@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker'
-import { type Page as PlaywrightPage } from '@playwright/test'
 import { type Page } from '@prisma/client'
 import { prisma } from '#app/utils/db.server'
 import { stringToSlug } from '#app/utils/misc'
@@ -68,7 +67,3 @@ export const createPages = [
 		published: true,
 	},
 ]
-
-export async function pageActionButton(page: PlaywrightPage, name: string) {
-	return await page.getByRole('button', { name })
-}

@@ -101,7 +101,9 @@ export default function PagesIndexRoute() {
 									<Link to={slug}>{name}</Link>
 								</TableCell>
 								<TableCell>{published ? 'Yes' : 'No'}</TableCell>
-								<TableCell>{posts.length}</TableCell>
+								<TableCell>
+									<Link to={`${slug}/posts`}>{posts.length}</Link>
+								</TableCell>
 								<TableCell className="text-right">
 									{new Date(updatedAt).toLocaleDateString()}
 								</TableCell>
