@@ -56,7 +56,10 @@ const ContentCardGrid = ({
 }) => {
 	return (
 		<div
-			className={cn('grid gap-4 lg:grid-flow-col lg:grid-cols-2', className)}
+			className={cn(
+				'grid w-full gap-4 lg:grid-flow-col lg:grid-cols-2',
+				className,
+			)}
 		>
 			{children}
 		</div>

@@ -53,6 +53,16 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 			slug: true,
 			published: true,
 			updatedAt: true,
+			posts: {
+				select: {
+					id: true,
+					title: true,
+					slug: true,
+				},
+				orderBy: {
+					updatedAt: 'desc',
+				},
+			},
 		},
 	})
 
@@ -67,7 +77,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 export default function PageDetailsRoute() {
 	const data = useLoaderData<typeof loader>()
 	const { page } = data
-	const { name, description, published } = page
+	const { name, description, published, posts } = page
 	return (
 		<ContentBody>
 			<ContentHeader>{name}</ContentHeader>
@@ -88,7 +98,7 @@ export default function PageDetailsRoute() {
 						<CardHeader>
 							<CardTitle>Posts</CardTitle>
 						</CardHeader>
-						<CardContent>posts</CardContent>
+						<CardContent>{posts.length}</CardContent>
 						<CardFooter>
 							<Button asChild>
 								<Link to="posts">View Posts</Link>
