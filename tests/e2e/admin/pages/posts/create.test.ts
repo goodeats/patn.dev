@@ -3,6 +3,7 @@ import {
 	checkCheckbox,
 	clickButton,
 	expectHeading,
+	expectNoUniqueText,
 	expectUniqueText,
 	fillInput,
 } from '#tests/page-utils'
@@ -100,7 +101,8 @@ test.describe('User can create Admin Pages Page Posts', () => {
 		await expectUniqueText(page, 'Not Published')
 		await expectUniqueText(page, newPost.description)
 		await expectUniqueText(page, newPost.content)
-		await expectUniqueText(page, 'less than a minute ago')
+		await expectUniqueText(page, 'Updated: less than a minute ago')
+		await expectNoUniqueText(page, 'Published: less than a minute ago')
 	})
 
 	test('Users can create post that is published', async ({ page, login }) => {
@@ -128,6 +130,7 @@ test.describe('User can create Admin Pages Page Posts', () => {
 		await expectUniqueText(page, 'Published')
 		await expectUniqueText(page, newPost.description)
 		await expectUniqueText(page, newPost.content)
-		await expectUniqueText(page, 'less than a minute ago')
+		await expectUniqueText(page, 'Updated: less than a minute ago')
+		await expectUniqueText(page, 'Published: less than a minute ago')
 	})
 })

@@ -70,16 +70,19 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
 	invariantResponse(post, 'Not found', { status: 404 })
 
-	const date = new Date(post.updatedAt)
-	const timeAgo = formatDistanceToNow(date)
+	const updatedAtDate = new Date(post.updatedAt)
+	const updatedtimeAgo = formatDistanceToNow(updatedAtDate)
 
-	return json({ page, post, timeAgo })
+	return json({ page, post, updatedtimeAgo })
 }
 
 export default function PostDetailsRoute() {
 	const data = useLoaderData<typeof loader>()
 	const { page, post } = data
-	const { title, description, content, published } = post
+	const { title, description, content, published, publishedAt } = post
+	const publishedAtDate =
+		published && publishedAt ? formatDistanceToNow(new Date(publishedAt)) : null
+
 	return (
 		<ContentBody>
 			<ContentHeader>{title}</ContentHeader>
@@ -120,8 +123,15 @@ export default function PostDetailsRoute() {
 			</ContentSection>
 			<FooterContainer>
 				<FooterIconIndicator icon="clock">
-					{data.timeAgo} ago
+					<span className="sr-only">Updated: </span>
+					{data.updatedtimeAgo} ago
 				</FooterIconIndicator>
+				{publishedAtDate && (
+					<FooterIconIndicator icon="rocket">
+						<span className="sr-only">Published: </span>
+						{publishedAtDate} ago
+					</FooterIconIndicator>
+				)}
 				<FooterActions>
 					<FooterLinkButton to="edit" icon="pencil-1">
 						Edit
