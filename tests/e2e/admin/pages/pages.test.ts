@@ -46,8 +46,8 @@ test.describe('User can view Admin Pages', () => {
 			'Date',
 		])
 		const rowCount = await pageTableRowCount(page)
-		const pageUpdatedAt = new Date().toLocaleDateString()
-		const rowContent = ['0', newPage.name, 'No', '0', pageUpdatedAt]
+		const updatedAt = new Date().toLocaleDateString()
+		const rowContent = ['0', newPage.name, 'No', '0', updatedAt]
 		await expectPageTableRowContent(page, rowCount - 1, rowContent)
 
 		// table link to page
@@ -74,7 +74,7 @@ test.describe('User can view Admin Pages', () => {
 		await expect(page).toHaveURL(testRoute)
 
 		// all created just now
-		const pageUpdatedAt = new Date().toLocaleDateString()
+		const updatedAt = new Date().toLocaleDateString()
 		const moveUpButton = await getButton(page, 'Move Up')
 		const moveDownButton = await getButton(page, 'Move Down')
 
@@ -89,7 +89,7 @@ test.describe('User can view Admin Pages', () => {
 				thisPage.name,
 				'Yes',
 				'0',
-				pageUpdatedAt,
+				updatedAt,
 				actions,
 			]
 			await expectPageTableRowContent(page, i, rowContent)

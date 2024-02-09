@@ -86,8 +86,13 @@ export const fillSubmitForm = async ({
 	}
 }
 
+export const getInput = async (page: Page, name: string) => {
+	return await page.getByRole('textbox', { name: new RegExp(name, 'i') })
+}
+
 export const fillInput = async (page: Page, name: string, value: string) => {
-	await page.getByRole('textbox', { name: new RegExp(name, 'i') }).fill(value)
+	const input = await getInput(page, name)
+	await input.fill(value)
 }
 
 export const checkCheckbox = async (page: Page, name: string) => {

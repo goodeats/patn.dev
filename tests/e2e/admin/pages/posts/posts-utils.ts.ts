@@ -7,11 +7,13 @@ export const createPost = ({ pageId }: { pageId: string }) => {
 	const title = faker.lorem.words(3)
 	return {
 		title,
-		description: faker.lorem.paragraphs(3),
+		description: faker.lorem.paragraphs(1),
+		content: faker.lorem.paragraphs(3),
 		slug: stringToSlug(title),
 		published: false as boolean,
+		publishedAt: new Date(),
 		pageId,
-	} satisfies Omit<Post, 'id' | 'createdAt' | 'updatedAt' | 'order'>
+	} satisfies Omit<Post, 'id' | 'createdAt' | 'updatedAt'>
 }
 
 export const insertPost = async ({
@@ -20,7 +22,7 @@ export const insertPost = async ({
 }: {
 	pageId: string
 	overrides?: Partial<
-		Pick<Post, 'title' | 'description' | 'slug' | 'published' | 'order'>
+		Pick<Post, 'title' | 'description' | 'content' | 'slug' | 'published'>
 	>
 }) => {
 	return await prisma.post.create({

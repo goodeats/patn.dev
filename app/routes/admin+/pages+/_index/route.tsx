@@ -6,8 +6,9 @@ import {
 	ContentHeader,
 	ContentSection,
 } from '#app/components/layout'
-import { Button, Icon } from '#app/components/ui'
 import {
+	Button,
+	Icon,
 	Table,
 	TableBody,
 	TableCaption,
@@ -15,7 +16,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '#app/components/ui/table'
+} from '#app/components/ui'
 import { requireAdminUserId } from '#app/utils/auth.server'
 import { prisma } from '#app/utils/db.server'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server'

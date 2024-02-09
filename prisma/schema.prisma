@@ -203,10 +203,10 @@ model Page {
 // content for pages
 model Post {
   id          String @id @default(cuid())
-  title       String
+  title       String @unique
   description String
+  content     String
   slug        String @unique
-  order       Int    @default(0)
   published   Boolean @default(false)
   publishedAt DateTime?
 

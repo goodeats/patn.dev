@@ -37,29 +37,23 @@ test.describe('User can view Admin Pages', () => {
 		// main content
 		await expectHeading(page, `${newPage.name} Posts`)
 
-		// // table content
-		// await expectPageTableHeaders(page, [
-		// 	'Order',
-		// 	'Page',
-		// 	'Published',
-		// 	'Posts',
-		// 	'Date',
-		// ])
-		// const rowCount = await pageTableRowCount(page)
-		// const pageUpdatedAt = new Date().toLocaleDateString()
-		// const rowContent = ['0', newPage.name, 'No', '0', pageUpdatedAt]
-		// await expectPageTableRowContent(page, rowCount - 1, rowContent)
+		// table content
+		await expectPageTableHeaders(page, ['Order', 'Post', 'Published', 'Date'])
+		const rowCount = await pageTableRowCount(page)
+		const updatedAt = new Date().toLocaleDateString()
+		const rowContent = ['0', newPage.name, 'No', updatedAt]
+		await expectPageTableRowContent(page, rowCount - 1, rowContent)
 
-		// // table link to page
-		// await clickLink(page, newPage.name)
-		// await expect(page).toHaveURL(`${testRoute}/${newPage.slug}`)
-		// await page.goto(testRoute)
+		// table link to page
+		await clickLink(page, newPage.name)
+		await expect(page).toHaveURL(`${testRoute}/${newPage.slug}`)
+		await page.goto(testRoute)
 
-		// // table link to page posts
-		// const firstTableRow = await pageTableRow(page, 0)
-		// const postsLink = await getLink(page, '0')
-		// await firstTableRow.locator(postsLink).click()
-		// await expect(page).toHaveURL(`${testRoute}/${newPage.slug}/posts`)
+		// table link to page posts
+		const firstTableRow = await pageTableRow(page, 0)
+		const postsLink = await getLink(page, '0')
+		await firstTableRow.locator(postsLink).click()
+		await expect(page).toHaveURL(`${testRoute}/${newPage.slug}/posts`)
 	})
 
 	// copied from pages, fix reorder test when ready
