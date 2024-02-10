@@ -8,7 +8,9 @@ export const ThemeSwitch = () => {
 	const { requestInfo } = useRootLoaderData()
 	const userPreference = requestInfo.userPrefs.theme
 
-	const fetcher = useFetcher<typeof action>()
+	const fetcher = useFetcher<typeof action>({
+		key: `theme-switch`,
+	})
 
 	const [form] = useForm({
 		id: 'theme-switch',

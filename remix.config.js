@@ -21,4 +21,7 @@ export default {
 			],
 		})
 	},
+	future: {
+		v3_fetcherPersist: true,
+	},
 }

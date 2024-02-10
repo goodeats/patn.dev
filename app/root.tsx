@@ -24,7 +24,9 @@ import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import {
 	GeneralErrorBoundary,
 	PageFooter,
+	PageFooterDev,
 	PageHeader,
+	PageHeaderDev,
 } from './components/layout'
 import { EpicProgress, useToast } from './components/templates'
 import { href as iconsHref, EpicToaster } from './components/ui'
@@ -165,6 +167,7 @@ export async function action({ request }: ActionFunctionArgs) {
 	const responseInit = {
 		headers: { 'set-cookie': setTheme(theme) },
 	}
+
 	return json({ result: submission.reply() }, responseInit)
 }
 
@@ -209,17 +212,19 @@ function App() {
 	const nonce = useNonce()
 	const theme = useTheme()
 	useToast(data.toast)
+	const env = data.ENV
+	const isProduction = env.MODE === 'production'
 
 	return (
-		<Document nonce={nonce} theme={theme} env={data.ENV}>
+		<Document nonce={nonce} theme={theme} env={env}>
 			<div className="flex h-screen flex-col justify-between">
-				<PageHeader />
+				{isProduction ? <PageHeader /> : <PageHeaderDev />}
 
 				<div className="flex-1">
 					<Outlet />
 				</div>
 
-				<PageFooter />
+				{isProduction ? <PageFooter /> : <PageFooterDev />}
 			</div>
 			<EpicToaster closeButton position="top-center" theme={theme} />
 			<EpicProgress />
