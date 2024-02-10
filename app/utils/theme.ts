@@ -14,15 +14,11 @@ export const ThemeFormSchema = z.object({
  */
 export function useTheme() {
 	const hints = useHints()
-	console.log('useTheme hints.theme: ', hints.theme)
 	const requestInfo = useRequestInfo()
-	console.log('checking useOptimisticThemeMode from utils')
 	const optimisticMode = useOptimisticThemeMode()
 	if (optimisticMode) {
-		console.log('useTheme optimisticMode: ', optimisticMode)
 		return optimisticMode === 'system' ? hints.theme : optimisticMode
 	}
-	console.log('useTheme requestInfo: ', optimisticMode)
 	return requestInfo.userPrefs.theme ?? hints.theme
 }
 
@@ -32,7 +28,6 @@ export function useTheme() {
  */
 export function useOptimisticThemeMode() {
 	const themeFetcher = useFetcher({ key: 'theme-switch' })
-	console.log('themeFetcher: ', themeFetcher)
 
 	if (themeFetcher && themeFetcher.formData) {
 		const submission = parseWithZod(themeFetcher.formData, {
@@ -40,8 +35,6 @@ export function useOptimisticThemeMode() {
 		})
 
 		if (submission.status === 'success') {
-			console.log('themeFetcher success: ', submission.value)
-
 			return submission.value.theme
 		}
 	}

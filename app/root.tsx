@@ -163,13 +163,11 @@ export async function action({ request }: ActionFunctionArgs) {
 	invariantResponse(submission.status === 'success', 'Invalid theme received')
 
 	const { theme } = submission.value
-	console.log('action, submission', submission, 'theme: ', theme)
 
 	const responseInit = {
 		headers: { 'set-cookie': setTheme(theme) },
 	}
 
-	console.log('submission.reply()', submission.reply())
 	return json({ result: submission.reply() }, responseInit)
 }
 
@@ -212,7 +210,6 @@ function Document({
 function App() {
 	const data = useLoaderData<typeof loader>()
 	const nonce = useNonce()
-	console.log('App useTheme')
 	const theme = useTheme()
 	useToast(data.toast)
 	const env = data.ENV

@@ -11,39 +11,33 @@ export const ThemeSwitch = () => {
 	const fetcher = useFetcher<typeof action>({
 		key: `theme-switch`,
 	})
-	console.log('fetcher', fetcher)
 
 	const [form] = useForm({
 		id: 'theme-switch',
 		lastResult: fetcher.data?.result,
 	})
 
-	console.log('checking useOptimisticThemeMode from component')
 	const optimisticMode = useOptimisticThemeMode()
-	console.log('optimisticMode', optimisticMode)
-	console.log('userPreference', userPreference)
 	const mode = optimisticMode ?? userPreference ?? 'system'
 	const nextMode =
 		mode === 'system' ? 'light' : mode === 'light' ? 'dark' : 'system'
-	console.log('mode', mode)
-	console.log('nextMode', nextMode)
-	// const modeLabel = {
-	// 	light: (
-	// 		<Icon name="sun">
-	// 			<span className="sr-only">Light</span>
-	// 		</Icon>
-	// 	),
-	// 	dark: (
-	// 		<Icon name="moon">
-	// 			<span className="sr-only">Dark</span>
-	// 		</Icon>
-	// 	),
-	// 	system: (
-	// 		<Icon name="laptop">
-	// 			<span className="sr-only">System</span>
-	// 		</Icon>
-	// 	),
-	// }
+	const modeLabel = {
+		light: (
+			<Icon name="sun">
+				<span className="sr-only">Light</span>
+			</Icon>
+		),
+		dark: (
+			<Icon name="moon">
+				<span className="sr-only">Dark</span>
+			</Icon>
+		),
+		system: (
+			<Icon name="laptop">
+				<span className="sr-only">System</span>
+			</Icon>
+		),
+	}
 
 	return (
 		<fetcher.Form method="POST" {...getFormProps(form)}>
@@ -53,22 +47,7 @@ export const ThemeSwitch = () => {
 					type="submit"
 					className="flex h-8 w-8 cursor-pointer items-center justify-center"
 				>
-					{/* {modeLabel[mode]} */}
-					{mode === 'light' && (
-						<Icon name="sun">
-							<span className="sr-only">Light</span>
-						</Icon>
-					)}
-					{mode === 'dark' && (
-						<Icon name="moon">
-							<span className="sr-only">Dark</span>
-						</Icon>
-					)}
-					{mode === 'system' && (
-						<Icon name="laptop">
-							<span className="sr-only">System</span>
-						</Icon>
-					)}
+					{modeLabel[mode]}
 				</button>
 			</div>
 		</fetcher.Form>
