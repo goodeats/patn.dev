@@ -28,6 +28,7 @@ export function useTheme() {
  */
 export function useOptimisticThemeMode() {
 	const themeFetcher = useFetcher({ key: 'theme-switch' })
+	console.log('themeFetcher: ', themeFetcher)
 
 	if (themeFetcher && themeFetcher.formData) {
 		const submission = parseWithZod(themeFetcher.formData, {
@@ -35,6 +36,8 @@ export function useOptimisticThemeMode() {
 		})
 
 		if (submission.status === 'success') {
+			console.log('themeFetcher success: ', submission.value)
+
 			return submission.value.theme
 		}
 	}
