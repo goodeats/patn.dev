@@ -9,7 +9,7 @@ export const ThemeSwitch = () => {
 	const userPreference = requestInfo.userPrefs.theme
 
 	const fetcher = useFetcher<typeof action>({
-		key: `theme-${new Date().getTime()}`,
+		key: `theme-switch`,
 	})
 	console.log('fetcher', fetcher)
 
