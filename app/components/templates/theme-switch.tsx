@@ -18,6 +18,7 @@ export const ThemeSwitch = () => {
 		lastResult: fetcher.data?.result,
 	})
 
+	console.log('checking useOptimisticThemeMode from component')
 	const optimisticMode = useOptimisticThemeMode()
 	console.log('optimisticMode', optimisticMode)
 	console.log('userPreference', userPreference)

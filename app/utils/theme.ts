@@ -14,11 +14,15 @@ export const ThemeFormSchema = z.object({
  */
 export function useTheme() {
 	const hints = useHints()
+	console.log('useTheme hints.theme: ', hints.theme)
 	const requestInfo = useRequestInfo()
+	console.log('checking useOptimisticThemeMode from utils')
 	const optimisticMode = useOptimisticThemeMode()
 	if (optimisticMode) {
+		console.log('useTheme optimisticMode: ', optimisticMode)
 		return optimisticMode === 'system' ? hints.theme : optimisticMode
 	}
+	console.log('useTheme requestInfo: ', optimisticMode)
 	return requestInfo.userPrefs.theme ?? hints.theme
 }
 
