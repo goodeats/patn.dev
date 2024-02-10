@@ -16,9 +16,13 @@ export const ThemeSwitch = () => {
 	})
 
 	const optimisticMode = useOptimisticThemeMode()
+	console.log('optimisticMode', optimisticMode)
+	console.log('userPreference', userPreference)
 	const mode = optimisticMode ?? userPreference ?? 'system'
 	const nextMode =
 		mode === 'system' ? 'light' : mode === 'light' ? 'dark' : 'system'
+	console.log('mode', mode)
+	console.log('nextMode', nextMode)
 	const modeLabel = {
 		light: (
 			<Icon name="sun">

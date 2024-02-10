@@ -161,6 +161,7 @@ export async function action({ request }: ActionFunctionArgs) {
 	invariantResponse(submission.status === 'success', 'Invalid theme received')
 
 	const { theme } = submission.value
+	console.log('action, submission', submission, 'theme: ', theme)
 
 	const responseInit = {
 		headers: { 'set-cookie': setTheme(theme) },
