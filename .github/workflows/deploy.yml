@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - dev
+      - 27-only-one-theme-switch-on-prod-bugfix
   pull_request: {}
 
 concurrency:
