@@ -4,7 +4,6 @@ on:
     branches:
       - main
       - dev
-      - 27-only-one-theme-switch-on-prod-bugfix
   pull_request: {}
 
 concurrency:
@@ -143,7 +142,7 @@ jobs:
     needs: [lint, typecheck, vitest, playwright]
     # only build/deploy main branch on pushes
     if:
-      ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/27-only-one-theme-switch-on-prod-bugfix') &&
+      ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') &&
       github.event_name == 'push' }}
 
     steps:
@@ -167,7 +166,7 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@v1.4
 
       - name: 🚀 Deploy Staging
-        if: ${{ github.ref == 'refs/heads/27-only-one-theme-switch-on-prod-bugfix' }}
+        if: ${{ github.ref == 'refs/heads/dev' }}
         run:
           flyctl deploy --remote-only --build-arg COMMIT_SHA=${{ github.sha }}
           --app ${{ steps.app_name.outputs.value }}-staging
