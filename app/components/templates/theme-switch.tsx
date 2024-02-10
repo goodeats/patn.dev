@@ -9,6 +9,7 @@ export const ThemeSwitch = () => {
 	const userPreference = requestInfo.userPrefs.theme
 
 	const fetcher = useFetcher<typeof action>()
+	console.log('fetcher', fetcher)
 
 	const [form] = useForm({
 		id: 'theme-switch',
@@ -23,23 +24,23 @@ export const ThemeSwitch = () => {
 		mode === 'system' ? 'light' : mode === 'light' ? 'dark' : 'system'
 	console.log('mode', mode)
 	console.log('nextMode', nextMode)
-	const modeLabel = {
-		light: (
-			<Icon name="sun">
-				<span className="sr-only">Light</span>
-			</Icon>
-		),
-		dark: (
-			<Icon name="moon">
-				<span className="sr-only">Dark</span>
-			</Icon>
-		),
-		system: (
-			<Icon name="laptop">
-				<span className="sr-only">System</span>
-			</Icon>
-		),
-	}
+	// const modeLabel = {
+	// 	light: (
+	// 		<Icon name="sun">
+	// 			<span className="sr-only">Light</span>
+	// 		</Icon>
+	// 	),
+	// 	dark: (
+	// 		<Icon name="moon">
+	// 			<span className="sr-only">Dark</span>
+	// 		</Icon>
+	// 	),
+	// 	system: (
+	// 		<Icon name="laptop">
+	// 			<span className="sr-only">System</span>
+	// 		</Icon>
+	// 	),
+	// }
 
 	return (
 		<fetcher.Form method="POST" {...getFormProps(form)}>
@@ -49,7 +50,22 @@ export const ThemeSwitch = () => {
 					type="submit"
 					className="flex h-8 w-8 cursor-pointer items-center justify-center"
 				>
-					{modeLabel[mode]}
+					{/* {modeLabel[mode]} */}
+					{mode === 'light' && (
+						<Icon name="sun">
+							<span className="sr-only">Light</span>
+						</Icon>
+					)}
+					{mode === 'dark' && (
+						<Icon name="moon">
+							<span className="sr-only">Dark</span>
+						</Icon>
+					)}
+					{mode === 'system' && (
+						<Icon name="laptop">
+							<span className="sr-only">System</span>
+						</Icon>
+					)}
 				</button>
 			</div>
 		</fetcher.Form>
