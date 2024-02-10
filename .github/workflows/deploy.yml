@@ -142,7 +142,7 @@ jobs:
     needs: [lint, typecheck, vitest, playwright]
     # only build/deploy main branch on pushes
     if:
-      ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev') &&
+      ${{ (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/27-only-one-theme-switch-on-prod-bugfix') &&
       github.event_name == 'push' }}
 
     steps:
