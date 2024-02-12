@@ -1,23 +1,29 @@
 import { Link } from '@remix-run/react'
-import { useRootLoaderData } from '#app/root'
 import { useOptionalUser } from '#app/utils/user'
 import { Logo, ThemeSwitch, UserDropdown } from '../templates'
 import { Button } from '../ui'
 
 const PageHeader = () => {
-	const { ENV } = useRootLoaderData()
 	const user = useOptionalUser()
 
-	const Theme = () => {
-		if (ENV.MODE === 'development') return null
-		console.log(ENV.MODE)
+	return (
+		<header className="container py-6">
+			<nav className="flex flex-wrap items-center justify-between gap-4 sm:flex-nowrap md:gap-8">
+				<Logo />
 
-		return <ThemeSwitch />
-	}
+				<div className="flex items-center gap-10">
+					<ThemeSwitch />
+					{user && <UserDropdown />}
+				</div>
+			</nav>
+		</header>
+	)
+}
+
+const PageHeaderDev = () => {
+	const user = useOptionalUser()
 
 	const LoginButton = () => {
-		if (ENV.MODE === 'production') return null
-
 		return (
 			<Button asChild variant="default" size="lg">
 				<Link to="/login">Log In</Link>
@@ -31,7 +37,6 @@ const PageHeader = () => {
 				<Logo />
 
 				<div className="flex items-center gap-10">
-					<Theme />
 					{user ? <UserDropdown /> : <LoginButton />}
 				</div>
 			</nav>
@@ -39,4 +44,4 @@ const PageHeader = () => {
 	)
 }
 
-export { PageHeader }
+export { PageHeader, PageHeaderDev }

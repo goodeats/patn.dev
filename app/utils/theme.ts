@@ -1,5 +1,5 @@
 import { parseWithZod } from '@conform-to/zod'
-import { useFetchers } from '@remix-run/react'
+import { useFetcher } from '@remix-run/react'
 import { z } from 'zod'
 import { useHints } from './client-hints'
 import { useRequestInfo } from './request-info'
@@ -27,8 +27,7 @@ export function useTheme() {
  * value it's being changed to.
  */
 export function useOptimisticThemeMode() {
-	const fetchers = useFetchers()
-	const themeFetcher = fetchers.find(f => f.formAction === '/')
+	const themeFetcher = useFetcher({ key: 'theme-switch' })
 
 	if (themeFetcher && themeFetcher.formData) {
 		const submission = parseWithZod(themeFetcher.formData, {
