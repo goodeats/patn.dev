@@ -8,38 +8,42 @@ import {
 	fillInput,
 } from '#tests/page-utils'
 import { expect, test } from '#tests/playwright-utils.ts'
+import { Page } from '@prisma/client'
 import { insertPage } from '../pages-utils'
 import { createPost, insertPost } from './posts-utils.ts'
 
 test.describe('Users cannot create Admin Pages Page Posts', () => {
 	test('when not logged in', async ({ page }) => {
-		const newPage = await insertPage({})
-		await page.goto(`/admin/pages/${newPage.slug}/posts/new`)
+		const adminPage = await insertPage({})
+		await page.goto(`/admin/pages/${adminPage.slug}/posts/new`)
 		await expect(page).toHaveURL('/')
 	})
 })
 
+let adminPage: Page
+let testRoute: string
 test.describe('User can create Admin Pages Page Posts', () => {
 	test.beforeEach(async ({ page }) => {
 		// Delete all pages before each test
 		await prisma.page.deleteMany()
+
+		adminPage = await insertPage({})
+		testRoute = `/admin/pages/${adminPage.slug}/posts/new`
 	})
 
 	test('when logged in as admin', async ({ page, login }) => {
 		await login()
-		const newPage = await insertPage({})
-		const testRoute = `/admin/pages/${newPage.slug}/posts/new`
+
 		await page.goto(testRoute)
 		await expect(page).toHaveURL(testRoute)
 
 		// main content
-		await expectHeading(page, `New ${newPage.name} Post`)
+		await expectHeading(page, `New ${adminPage.name} Post`)
 	})
 
 	test('and see errors for required fields', async ({ page, login }) => {
 		await login()
-		const newPage = await insertPage({})
-		const testRoute = `/admin/pages/${newPage.slug}/posts/new`
+
 		await page.goto(testRoute)
 
 		// skip name and description
@@ -55,9 +59,8 @@ test.describe('User can create Admin Pages Page Posts', () => {
 
 	test('Users will see error if duplicate title', async ({ page, login }) => {
 		await login()
-		const newPage = await insertPage({})
-		const newPost = await insertPost({ pageId: newPage.id })
-		const testRoute = `/admin/pages/${newPage.slug}/posts/new`
+
+		const newPost = await insertPost({ pageId: adminPage.id })
 		await page.goto(testRoute)
 
 		// fill in form
@@ -78,11 +81,10 @@ test.describe('User can create Admin Pages Page Posts', () => {
 		login,
 	}) => {
 		await login()
-		const newPage = await insertPage({})
-		const testRoute = `/admin/pages/${newPage.slug}/posts/new`
+
 		await page.goto(testRoute)
 
-		const newPost = createPost({ pageId: newPage.id })
+		const newPost = createPost({ pageId: adminPage.id })
 
 		// fill in form
 		await fillInput(page, 'title', newPost.title)
@@ -95,7 +97,7 @@ test.describe('User can create Admin Pages Page Posts', () => {
 
 		// expect page to be created
 		await expect(page).toHaveURL(
-			`/admin/pages/${newPage.slug}/posts/${newPost.slug}`,
+			`/admin/pages/${adminPage.slug}/posts/${newPost.slug}`,
 		)
 		await expectHeading(page, newPost.title)
 		await expectUniqueText(page, 'Not Published')
@@ -107,11 +109,10 @@ test.describe('User can create Admin Pages Page Posts', () => {
 
 	test('Users can create post that is published', async ({ page, login }) => {
 		await login()
-		const newPage = await insertPage({})
-		const testRoute = `/admin/pages/${newPage.slug}/posts/new`
+
 		await page.goto(testRoute)
 
-		const newPost = createPost({ pageId: newPage.id })
+		const newPost = createPost({ pageId: adminPage.id })
 
 		// fill in form
 		await fillInput(page, 'title', newPost.title)
@@ -124,7 +125,7 @@ test.describe('User can create Admin Pages Page Posts', () => {
 
 		// expect page to be created
 		await expect(page).toHaveURL(
-			`/admin/pages/${newPage.slug}/posts/${newPost.slug}`,
+			`/admin/pages/${adminPage.slug}/posts/${newPost.slug}`,
 		)
 		await expectHeading(page, newPost.title)
 		await expectUniqueText(page, 'Published')
