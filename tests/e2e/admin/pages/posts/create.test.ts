@@ -1,3 +1,4 @@
+import { type Page } from '@prisma/client'
 import { prisma } from '#app/utils/db.server.ts'
 import {
 	checkCheckbox,
@@ -8,7 +9,6 @@ import {
 	fillInput,
 } from '#tests/page-utils'
 import { expect, test } from '#tests/playwright-utils.ts'
-import { type Page } from '@prisma/client'
 import { insertPage } from '../pages-utils'
 import { createPost, insertPost } from './posts-utils.ts'
 
