@@ -7,7 +7,13 @@ import {
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
 import { invariantResponse } from '@epic-web/invariant'
-import { json, redirect, type ActionFunctionArgs } from '@remix-run/node'
+import { type Post } from '@prisma/client'
+import {
+	json,
+	redirect,
+	type ActionFunctionArgs,
+	type SerializeFrom,
+} from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
 import { z } from 'zod'
 import {
@@ -29,7 +35,7 @@ import { Button } from '#app/components/ui'
 import { prisma } from '#app/utils/db.server.ts'
 import { stringToSlug, useIsPending } from '#app/utils/misc.tsx'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server'
-import { NewPostSchema } from '#app/utils/zod-schema'
+import { EditPostSchema } from '#app/utils/zod-schema'
 
 export async function action({ request }: ActionFunctionArgs) {
 	await requireUserWithAdminRole(request)
@@ -37,23 +43,24 @@ export async function action({ request }: ActionFunctionArgs) {
 	const formData = await request.formData()
 
 	const submission = await parseWithZod(formData, {
-		schema: NewPostSchema.superRefine(async (data, ctx) => {
-			const page = await prisma.page.findUnique({
+		schema: EditPostSchema.superRefine(async (data, ctx) => {
+			const post = await prisma.post.findUnique({
 				select: { id: true },
-				where: { id: data.pageId },
+				where: { id: data.id },
 			})
-			if (!page) {
+			if (!post) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: `Page does not exist`,
+					message: 'Post not found',
 				})
+				return
 			}
 
-			const pagePostWithTitle = await prisma.post.findFirst({
+			const postWithTitle = await prisma.post.findFirst({
 				select: { id: true },
 				where: { title: data.title },
 			})
-			if (pagePostWithTitle) {
+			if (postWithTitle && postWithTitle.id !== data.id) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
 					message: `Post with that title already exists`,
@@ -71,8 +78,16 @@ export async function action({ request }: ActionFunctionArgs) {
 		)
 	}
 
-	const { pageId, title, description, content, published } = submission.value
+	const {
+		id: postId,
+		pageId,
+		title,
+		description,
+		content,
+		published,
+	} = submission.value
 	const slug = stringToSlug(title)
+	console.log('submission.value', submission.value)
 
 	const page = await prisma.page.findUnique({
 		select: { id: true, slug: true },
@@ -81,38 +96,43 @@ export async function action({ request }: ActionFunctionArgs) {
 
 	invariantResponse(page, 'Page does not exist')
 
-	let publishedAt = null
-	if (published) {
-		publishedAt = new Date()
-	}
-
-	const createdPost = await prisma.post.create({
+	const updatedPost = await prisma.post.update({
+		where: { id: postId },
 		select: { slug: true },
 		data: {
 			title,
 			description,
 			content,
 			slug,
-			published,
-			publishedAt,
-			pageId,
+			published: !!published,
 		},
 	})
 
-	return redirect(`/admin/pages/${page.slug}/posts/${createdPost.slug}`)
+	return redirect(`/admin/pages/${page.slug}/posts/${updatedPost.slug}`)
 }
 
-export function NewForm({ pageId }: { pageId: string }) {
+export function EditForm({
+	post,
+}: {
+	post: SerializeFrom<
+		Pick<
+			Post,
+			'id' | 'title' | 'description' | 'content' | 'published' | 'pageId'
+		>
+	>
+}) {
 	const actionData = useActionData<typeof action>()
 	const isPending = useIsPending()
 
-	// TODO: keep previous form data on backend error
 	const [form, fields] = useForm({
-		id: 'new-page-post',
-		constraint: getZodConstraint(NewPostSchema),
+		id: 'edit-post',
+		constraint: getZodConstraint(EditPostSchema),
 		lastResult: actionData?.result,
 		onValidate({ formData }) {
-			return parseWithZod(formData, { schema: NewPostSchema })
+			return parseWithZod(formData, { schema: EditPostSchema })
+		},
+		defaultValue: {
+			...post,
 		},
 	})
 
@@ -125,10 +145,10 @@ export function NewForm({ pageId }: { pageId: string }) {
 					{...getFormProps(form)}
 				>
 					<HiddenSubmitButton />
-					<input type="hidden" name="pageId" value={pageId} />
-
+					<input type="hidden" name="id" value={post.id} />
+					<input type="hidden" name="pageId" value={post.pageId} />
 					<FormFieldsContainer>
-						{/* Fields title */}
+						{/* Fields name */}
 						<Field
 							labelProps={{ children: 'Title' }}
 							inputProps={{

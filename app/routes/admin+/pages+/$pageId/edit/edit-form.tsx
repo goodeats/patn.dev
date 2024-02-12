@@ -97,7 +97,7 @@ export async function action({ request }: ActionFunctionArgs) {
 			name,
 			description,
 			slug,
-			published,
+			published: !!published,
 		},
 	})
 
