@@ -8,7 +8,7 @@ import {
 	fillInput,
 } from '#tests/page-utils'
 import { expect, test } from '#tests/playwright-utils.ts'
-import { Page } from '@prisma/client'
+import { type Page } from '@prisma/client'
 import { insertPage } from '../pages-utils'
 import { createPost, insertPost } from './posts-utils.ts'
 
