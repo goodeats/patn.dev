@@ -5,12 +5,12 @@ import {
 	expectPageTableHeaders,
 	expectPageTableRowContent,
 	getButton,
-	getLink,
 	pageTableRow,
 	pageTableRowCount,
 } from '#tests/page-utils'
 import { expect, test } from '#tests/playwright-utils.ts'
 import { insertPage, insertPages } from '../pages-utils'
+import { insertPost } from './posts-utils.ts'
 
 test.describe('Users cannot view Admin Pages Page Posts', () => {
 	test('when not logged in', async ({ page }) => {
@@ -20,10 +20,11 @@ test.describe('Users cannot view Admin Pages Page Posts', () => {
 	})
 })
 
-test.describe('User can view Admin Pages', () => {
+test.describe('User can view Admin Pages Page Posts', () => {
 	test('when logged in as admin', async ({ page, login }) => {
 		await login()
 		const newPage = await insertPage({})
+		const newPost = await insertPost({ pageId: newPage.id })
 		const testRoute = `/admin/pages/${newPage.slug}/posts`
 
 		await page.goto(testRoute)
@@ -38,22 +39,15 @@ test.describe('User can view Admin Pages', () => {
 		await expectHeading(page, `${newPage.name} Posts`)
 
 		// table content
-		await expectPageTableHeaders(page, ['Order', 'Post', 'Published', 'Date'])
+		await expectPageTableHeaders(page, ['Post', 'Published', 'Date'])
 		const rowCount = await pageTableRowCount(page)
 		const updatedAt = new Date().toLocaleDateString()
-		const rowContent = ['0', newPage.name, 'No', updatedAt]
+		const rowContent = [newPost.title, 'No', updatedAt]
 		await expectPageTableRowContent(page, rowCount - 1, rowContent)
 
 		// table link to page
-		await clickLink(page, newPage.name)
-		await expect(page).toHaveURL(`${testRoute}/${newPage.slug}`)
-		await page.goto(testRoute)
-
-		// table link to page posts
-		const firstTableRow = await pageTableRow(page, 0)
-		const postsLink = await getLink(page, '0')
-		await firstTableRow.locator(postsLink).click()
-		await expect(page).toHaveURL(`${testRoute}/${newPage.slug}/posts`)
+		await clickLink(page, newPost.title)
+		await expect(page).toHaveURL(`${testRoute}/${newPost.slug}`)
 	})
 
 	// copied from pages, fix reorder test when ready
