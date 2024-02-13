@@ -87,7 +87,7 @@ export default function Index() {
 					>
 						Generative Art
 					</a>{' '}
-					project that I am also currently working on! 🎨🔺
+					project that I am currently working on! 🎨🔺
 				</p>
 			</>
 		)
