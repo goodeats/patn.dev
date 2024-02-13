@@ -43,18 +43,17 @@ test.describe('Admin User can access Edit Admin Page Post', () => {
 		await expect(page).toHaveURL(testRoute)
 	})
 
-	test('View expected content', async ({ page, login }) => {
-		// main content
+	test('View expected content', async ({ page }) => {
 		await expectHeading(page, 'Edit Post')
 	})
 
 	test.describe('Update is unsuccessful', () => {
-		test('without required fields', async ({ page, login }) => {
+		test('without required fields', async ({ page }) => {
 			// clear required fields
 			await fillInput(page, 'title', '')
 			await fillInput(page, 'description', '')
 			await fillInput(page, 'content', '')
-			// submit
+
 			await clickButton(page, 'submit')
 
 			// expect post to not be updated
@@ -64,12 +63,12 @@ test.describe('Admin User can access Edit Admin Page Post', () => {
 			await expectUniqueText(page, 'Content Required')
 		})
 
-		test('Users will see error if duplicate name', async ({ page, login }) => {
+		test('Users will see error if duplicate name', async ({ page }) => {
 			const otherPost = await insertPost({ pageId: adminPage.id })
 
 			// fill title with existing post title
 			await fillInput(page, 'title', otherPost.title)
-			// submit
+
 			await clickButton(page, 'submit')
 
 			// expect page to not be created
@@ -79,7 +78,7 @@ test.describe('Admin User can access Edit Admin Page Post', () => {
 	})
 
 	test.describe('Update is successful', () => {
-		test('with required fields', async ({ page, login }) => {
+		test('with required fields', async ({ page }) => {
 			const updatedPost = createPost({ pageId: adminPage.id })
 
 			// fill in form
@@ -88,7 +87,6 @@ test.describe('Admin User can access Edit Admin Page Post', () => {
 			await fillInput(page, 'content', updatedPost.content)
 			await checkCheckbox(page, 'publish')
 
-			// submit
 			await clickButton(page, 'submit')
 
 			// expect page to be updated
@@ -97,7 +95,7 @@ test.describe('Admin User can access Edit Admin Page Post', () => {
 			await expectPageContentForPost(page, updatedPost, true)
 		})
 
-		test('publish an unpublished post', async ({ page, login }) => {
+		test('publish an unpublished post', async ({ page }) => {
 			// go back to post page to confirm it is not published
 			clickLink(page, 'cancel')
 			await expectPageContentForPost(page, adminPost, false)
@@ -110,7 +108,7 @@ test.describe('Admin User can access Edit Admin Page Post', () => {
 			await expectPageContentForPost(page, adminPost, true)
 		})
 
-		test('unpublish a published post', async ({ page, login }) => {
+		test('unpublish a published post', async ({ page }) => {
 			await prisma.post.update({
 				where: { id: adminPost.id },
 				data: { published: true, publishedAt: new Date() },
