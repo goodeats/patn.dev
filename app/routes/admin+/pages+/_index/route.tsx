@@ -1,9 +1,14 @@
 import { type LoaderFunctionArgs } from '@remix-run/node'
 import { Link, json, useLoaderData } from '@remix-run/react'
 import { type DataFunctionArgs } from '@sentry/remix/types/utils/vendor/types'
-import { ContentHeader, ContentSection } from '#app/components/layout'
-import { Button, Icon } from '#app/components/ui'
 import {
+	ContentBody,
+	ContentHeader,
+	ContentSection,
+} from '#app/components/layout'
+import {
+	Button,
+	Icon,
 	Table,
 	TableBody,
 	TableCaption,
@@ -11,7 +16,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from '#app/components/ui/table'
+} from '#app/components/ui'
 import { requireAdminUserId } from '#app/utils/auth.server'
 import { prisma } from '#app/utils/db.server'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server'
@@ -43,6 +48,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 			published: true,
 			order: true,
 			updatedAt: true,
+			posts: {
+				select: {
+					id: true,
+				},
+			},
 		},
 		orderBy: {
 			order: 'asc',
@@ -57,7 +67,7 @@ export default function PagesIndexRoute() {
 	const { pages } = data
 
 	return (
-		<div>
+		<ContentBody>
 			<ContentHeader>Pages</ContentHeader>
 			<ContentSection>
 				<div className="ml-auto mr-4">
@@ -77,24 +87,29 @@ export default function PagesIndexRoute() {
 						<TableHead className="w-[100px]">Order</TableHead>
 						<TableHead>Page</TableHead>
 						<TableHead>Published</TableHead>
+						<TableHead>Posts</TableHead>
 						<TableHead className="text-right">Date</TableHead>
 						<TableHead className="sr-only w-[40px]">Change Order</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
 					{pages.map(page => {
+						const { id, order, slug, name, published, posts, updatedAt } = page
 						return (
-							<TableRow key={page.id}>
-								<TableCell>{page.order}</TableCell>
+							<TableRow key={id}>
+								<TableCell>{order}</TableCell>
 								<TableCell>
-									<Link to={page.slug}>{page.name}</Link>
+									<Link to={slug}>{name}</Link>
 								</TableCell>
-								<TableCell>{page.published ? 'Yes' : 'No'}</TableCell>
+								<TableCell>{published ? 'Yes' : 'No'}</TableCell>
+								<TableCell>
+									<Link to={`${slug}/posts`}>{posts.length}</Link>
+								</TableCell>
 								<TableCell className="text-right">
-									{new Date(page.updatedAt).toLocaleDateString()}
+									{new Date(updatedAt).toLocaleDateString()}
 								</TableCell>
 								<TableCell className="w-[40px] text-right">
-									<div id={`page-${page.id}-actions`} className="flex gap-2">
+									<div id={`page-${id}-actions`} className="flex gap-2">
 										<EditOrderForm
 											page={page}
 											direction="up"
@@ -112,6 +127,6 @@ export default function PagesIndexRoute() {
 					})}
 				</TableBody>
 			</Table>
-		</div>
+		</ContentBody>
 	)
 }

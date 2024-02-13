@@ -18,14 +18,14 @@ import {
 	Button,
 	Card,
 	CardContent,
-	CardFooter,
 	CardHeader,
 	CardTitle,
+	Icon,
 } from '#app/components/ui'
 import { requireAdminUserId } from '#app/utils/auth.server'
 import { prisma } from '#app/utils/db.server'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server'
-import { INTENT, deletePageAction } from './actions'
+import { INTENT, deletePostAction } from './actions'
 import { DeleteForm } from './delete-form'
 
 export async function action({ request }: DataFunctionArgs) {
@@ -33,8 +33,8 @@ export async function action({ request }: DataFunctionArgs) {
 	const formData = await request.formData()
 	const intent = formData.get('intent')
 	switch (intent) {
-		case INTENT.deletePage: {
-			return deletePageAction({ request, formData })
+		case INTENT.deletePost: {
+			return deletePostAction({ request, formData })
 		}
 		default: {
 			throw new Response(`Invalid intent "${intent}"`, { status: 400 })
@@ -44,47 +44,70 @@ export async function action({ request }: DataFunctionArgs) {
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
 	await requireUserWithAdminRole(request)
+
+	const pageSlug = params.pageId
+
 	const page = await prisma.page.findFirst({
-		where: { slug: params.pageId },
+		where: { slug: pageSlug },
 		select: {
 			id: true,
 			name: true,
-			description: true,
 			slug: true,
-			published: true,
-			updatedAt: true,
-			posts: {
-				select: {
-					id: true,
-					title: true,
-					slug: true,
-				},
-				orderBy: {
-					updatedAt: 'desc',
-				},
-			},
 		},
 	})
 
 	invariantResponse(page, 'Not found', { status: 404 })
 
-	const date = new Date(page.updatedAt)
-	const timeAgo = formatDistanceToNow(date)
+	const post = await prisma.post.findFirst({
+		where: { slug: params.postId },
+		select: {
+			id: true,
+			title: true,
+			description: true,
+			content: true,
+			slug: true,
+			published: true,
+			publishedAt: true,
+			updatedAt: true,
+		},
+	})
 
-	return json({ page, timeAgo })
+	invariantResponse(post, 'Not found', { status: 404 })
+
+	const updatedAtDate = new Date(post.updatedAt)
+	const updatedtimeAgo = formatDistanceToNow(updatedAtDate)
+
+	return json({ page, post, updatedtimeAgo })
 }
 
-export default function PageDetailsRoute() {
+export default function PostDetailsRoute() {
 	const data = useLoaderData<typeof loader>()
-	const { page } = data
-	const { name, description, published, posts } = page
+	const { page, post } = data
+	const { title, description, content, published, publishedAt } = post
+	const publishedAtDate =
+		published && publishedAt ? formatDistanceToNow(new Date(publishedAt)) : null
+
 	return (
 		<ContentBody>
-			<ContentHeader>{name}</ContentHeader>
+			<ContentHeader>{title}</ContentHeader>
 			<ContentSection>
 				<Badge variant={published ? 'secondary' : 'destructive'}>
 					{published ? 'Published' : 'Not Published'}
 				</Badge>
+			</ContentSection>
+			<ContentSection>
+				<div className="ml-4 mr-auto flex gap-4">
+					<Button asChild>
+						<Link to="../.." prefetch="intent">
+							<Icon name="arrow-left">{page.name}</Icon>
+						</Link>
+					</Button>
+					<Button asChild>
+						<Link to=".." prefetch="intent">
+							<Icon name="arrow-left">Posts</Icon>
+						</Link>
+					</Button>
+				</div>
 			</ContentSection>
 			<ContentSection>
 				<ContentCardGrid>
@@ -96,26 +119,28 @@ export default function PageDetailsRoute() {
 					</Card>
 					<Card>
 						<CardHeader>
-							<CardTitle>Posts</CardTitle>
+							<CardTitle>Content</CardTitle>
 						</CardHeader>
-						<CardContent>{posts.length}</CardContent>
-						<CardFooter>
-							<Button asChild>
-								<Link to="posts">View Posts</Link>
-							</Button>
-						</CardFooter>
+						<CardContent>{content}</CardContent>
 					</Card>
 				</ContentCardGrid>
 			</ContentSection>
 			<FooterContainer>
 				<FooterIconIndicator icon="clock">
-					{data.timeAgo} ago
+					<span className="sr-only">Updated: </span>
+					{data.updatedtimeAgo} ago
 				</FooterIconIndicator>
+				{publishedAtDate && (
+					<FooterIconIndicator icon="rocket">
+						<span className="sr-only">Published: </span>
+						{publishedAtDate} ago
+					</FooterIconIndicator>
+				)}
 				<FooterActions>
 					<FooterLinkButton to="edit" icon="pencil-1">
 						Edit
 					</FooterLinkButton>
-					<DeleteForm id={page.id} />
+					<DeleteForm id={post.id} />
 				</FooterActions>
 			</FooterContainer>
 		</ContentBody>

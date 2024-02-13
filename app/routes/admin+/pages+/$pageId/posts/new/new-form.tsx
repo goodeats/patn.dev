@@ -6,13 +6,8 @@ import {
 	useForm,
 } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { type Page } from '@prisma/client'
-import {
-	json,
-	redirect,
-	type ActionFunctionArgs,
-	type SerializeFrom,
-} from '@remix-run/node'
+import { invariantResponse } from '@epic-web/invariant'
+import { json, redirect, type ActionFunctionArgs } from '@remix-run/node'
 import { Form, useActionData } from '@remix-run/react'
 import { z } from 'zod'
 import {
@@ -34,18 +29,7 @@ import { Button } from '#app/components/ui'
 import { prisma } from '#app/utils/db.server.ts'
 import { stringToSlug, useIsPending } from '#app/utils/misc.tsx'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server'
-
-const titleMinLength = 1
-const titleMaxLength = 16
-const descriptionMinLength = 1
-const descriptionMaxLength = 10000
-
-const EditPageSchema = z.object({
-	id: z.string(),
-	name: z.string().min(titleMinLength).max(titleMaxLength),
-	description: z.string().min(descriptionMinLength).max(descriptionMaxLength),
-	published: z.boolean().optional(),
-})
+import { NewPostSchema } from '#app/utils/zod-schema'
 
 export async function action({ request }: ActionFunctionArgs) {
 	await requireUserWithAdminRole(request)
@@ -53,26 +37,26 @@ export async function action({ request }: ActionFunctionArgs) {
 	const formData = await request.formData()
 
 	const submission = await parseWithZod(formData, {
-		schema: EditPageSchema.superRefine(async (data, ctx) => {
+		schema: NewPostSchema.superRefine(async (data, ctx) => {
 			const page = await prisma.page.findUnique({
 				select: { id: true },
-				where: { id: data.id },
+				where: { id: data.pageId },
 			})
 			if (!page) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: 'Page not found',
+					message: `Page does not exist`,
 				})
 			}
 
-			const pageWithName = await prisma.page.findFirst({
+			const pagePostWithTitle = await prisma.post.findFirst({
 				select: { id: true },
-				where: { name: data.name },
+				where: { title: data.title },
 			})
-			if (pageWithName && pageWithName.id !== data.id) {
+			if (pagePostWithTitle) {
 				ctx.addIssue({
 					code: z.ZodIssueCode.custom,
-					message: `Page with that name already exists`,
+					message: `Post with that title already exists`,
 				})
 				return
 			}
@@ -87,40 +71,45 @@ export async function action({ request }: ActionFunctionArgs) {
 		)
 	}
 
-	const { id: pageId, name, description, published } = submission.value
-	const slug = stringToSlug(name)
+	const { pageId, title, description, content, published } = submission.value
+	const slug = stringToSlug(title)
 
-	const updatedPage = await prisma.page.update({
+	const page = await prisma.page.findUnique({
+		select: { id: true, slug: true },
 		where: { id: pageId },
+	})
+
+	invariantResponse(page, 'Page does not exist')
+
+	const publishedAt = published ? new Date() : null
+
+	const createdPost = await prisma.post.create({
 		select: { slug: true },
 		data: {
-			name,
+			title,
 			description,
+			content,
 			slug,
-			published: !!published,
+			published,
+			publishedAt,
+			pageId,
 		},
 	})
 
-	return redirect(`/admin/pages/${updatedPage.slug}`)
+	return redirect(`/admin/pages/${page.slug}/posts/${createdPost.slug}`)
 }
 
-export function EditForm({
-	page,
-}: {
-	page: SerializeFrom<Pick<Page, 'id' | 'name' | 'description' | 'published'>>
-}) {
+export function NewForm({ pageId }: { pageId: string }) {
 	const actionData = useActionData<typeof action>()
 	const isPending = useIsPending()
 
+	// TODO: keep previous form data on backend error
 	const [form, fields] = useForm({
-		id: 'edit-page',
-		constraint: getZodConstraint(EditPageSchema),
+		id: 'new-page-post',
+		constraint: getZodConstraint(NewPostSchema),
 		lastResult: actionData?.result,
 		onValidate({ formData }) {
-			return parseWithZod(formData, { schema: EditPageSchema })
-		},
-		defaultValue: {
-			...page,
+			return parseWithZod(formData, { schema: NewPostSchema })
 		},
 	})
 
@@ -133,16 +122,17 @@ export function EditForm({
 					{...getFormProps(form)}
 				>
 					<HiddenSubmitButton />
-					<input type="hidden" name="id" value={page.id} />
+					<input type="hidden" name="pageId" value={pageId} />
+
 					<FormFieldsContainer>
-						{/* Fields name */}
+						{/* Fields title */}
 						<Field
-							labelProps={{ children: 'Name' }}
+							labelProps={{ children: 'Title' }}
 							inputProps={{
 								autoFocus: true,
-								...getInputProps(fields.name, { type: 'text' }),
+								...getInputProps(fields.title, { type: 'text' }),
 							}}
-							errors={fields.name.errors}
+							errors={fields.title.errors}
 						/>
 						{/* Fields description */}
 						<TextareaField
@@ -153,6 +143,16 @@ export function EditForm({
 								}),
 							}}
 							errors={fields.description.errors}
+						/>
+						{/* Fields content */}
+						<TextareaField
+							labelProps={{ children: 'Content' }}
+							textareaProps={{
+								...getTextareaProps(fields.content, {
+									ariaAttributes: true,
+								}),
+							}}
+							errors={fields.content.errors}
 						/>
 						{/* Fields published */}
 						<CheckboxField
@@ -192,7 +192,7 @@ export function ErrorBoundary() {
 		<GeneralErrorBoundary
 			statusHandlers={{
 				404: ({ params }) => (
-					<p>No layer with the id "{params.layerId}" exists</p>
+					<p>No post with the id "{params.postId}" exists</p>
 				),
 			}}
 		/>
