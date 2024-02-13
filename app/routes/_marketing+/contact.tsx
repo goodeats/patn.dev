@@ -100,7 +100,7 @@ export default function AboutRoute() {
 
 	const ContactCard = () => {
 		return (
-			<Card>
+			<Card className="mt-16 xl:mt-0">
 				<CardHeader>
 					<CardTitle>Social links</CardTitle>
 					<CardDescription>I'll be adding more soon</CardDescription>
