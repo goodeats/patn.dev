@@ -71,10 +71,9 @@ const PageHeaderNavLink = ({
 			prefetch="intent"
 			className={({ isActive }) =>
 				cn(
-					'relative block whitespace-nowrap px-2 py-2 text-base after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full focus:after:w-full',
+					'relative block whitespace-nowrap border-b-2 border-background px-2 py-2 text-base transition-all duration-500 hover:border-primary focus:border-primary',
 					{
-						'after:w-full': isActive,
-						'after:w-0': !isActive,
+						'border-primary': isActive,
 					},
 				)
 			}
