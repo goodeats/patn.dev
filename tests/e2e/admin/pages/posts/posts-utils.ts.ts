@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
+import { type Page } from '@playwright/test'
 import { type Post } from '@prisma/client'
 import { prisma } from '#app/utils/db.server'
 import { stringToSlug } from '#app/utils/misc'
-import { Page } from '@playwright/test'
 import {
 	expectHeading,
 	expectNoUniqueText,
