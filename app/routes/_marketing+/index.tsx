@@ -4,6 +4,7 @@ import {
 	type MetaFunction,
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import { HomeWrapper } from '#app/components/layout'
 import { LogoGrid } from '#app/components/templates'
 import { prisma } from '#app/utils/db.server.ts'
 import { getUserImgSrc } from '#app/utils/misc.tsx'
@@ -61,24 +62,39 @@ export default function Index() {
 
 	const CallToAction = () => {
 		return (
-			<p
-				data-paragraph
-				className="mt-6 animate-slide-top text-xl/7 text-muted-foreground [animation-fill-mode:backwards] [animation-delay:0.8s] xl:mt-8 xl:animate-slide-left xl:text-xl/6 xl:leading-10 xl:[animation-fill-mode:backwards] xl:[animation-delay:1s]"
-			>
-				Check out the{' '}
-				<a
-					className="underline hover:no-underline"
-					href="https://github.com/goodeats/patn.dev"
+			<>
+				<p
+					data-paragraph
+					className="mt-6 animate-slide-top text-xl/7 text-muted-foreground [animation-fill-mode:backwards] [animation-delay:0.8s] xl:mt-8 xl:animate-slide-left xl:text-xl/6 xl:leading-10 xl:[animation-fill-mode:backwards] xl:[animation-delay:1s]"
 				>
-					GitHub Repo
-				</a>{' '}
-				for my portfolio site while it is under construction! 🚧
-			</p>
+					Check out the{' '}
+					<a
+						className="underline hover:no-underline"
+						href="https://github.com/goodeats/patn.dev"
+					>
+						GitHub Repo
+					</a>{' '}
+					for my portfolio site while it is actively under construction! 🚧
+				</p>
+				<p
+					data-paragraph
+					className="mt-6 animate-slide-top text-xl/7 text-muted-foreground [animation-fill-mode:backwards] [animation-delay:0.8s] xl:mt-8 xl:animate-slide-left xl:text-xl/6 xl:leading-10 xl:[animation-fill-mode:backwards] xl:[animation-delay:1s]"
+				>
+					Also check out the{' '}
+					<a
+						className="underline hover:no-underline"
+						href="https://pppaaattt.xyz"
+					>
+						Generative Art
+					</a>{' '}
+					project that I am also currently working on! 🎨🔺
+				</p>
+			</>
 		)
 	}
 
 	return (
-		<main className="font-poppins grid h-full place-items-center">
+		<HomeWrapper>
 			<div className="grid place-items-center px-4 py-16 xl:grid-cols-2 xl:gap-24">
 				<div className="flex max-w-md flex-col items-center text-center xl:order-2 xl:items-start xl:text-left">
 					<a
@@ -92,6 +108,6 @@ export default function Index() {
 				</div>
 				<LogoGrid logos={logos} />
 			</div>
-		</main>
+		</HomeWrapper>
 	)
 }
