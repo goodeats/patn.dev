@@ -1,5 +1,6 @@
-import { Link } from '@remix-run/react'
+import { Link, NavLink } from '@remix-run/react'
 import { useRootLoaderData } from '#app/root'
+import { cn } from '#app/utils/misc'
 import { useOptionalUser } from '#app/utils/user'
 import { Logo, ThemeSwitch, UserDropdown } from '../templates'
 import { Button } from '../ui'
@@ -46,14 +47,40 @@ const PageHeaderDev = () => {
 
 				<div className="flex items-center gap-10">
 					{pages.map(page => (
-						<Link key={page.slug} to={`/${page.slug}`} prefetch="intent">
+						<PageHeaderNavLink key={page.slug} to={`/${page.slug}`}>
 							{page.name}
-						</Link>
+						</PageHeaderNavLink>
 					))}
 					{user ? <UserDropdown /> : <LoginButton />}
 				</div>
 			</nav>
 		</header>
+	)
+}
+
+const PageHeaderNavLink = ({
+	to,
+	children,
+}: {
+	to: string
+	children: React.ReactNode
+}) => {
+	return (
+		<NavLink
+			to={to}
+			prefetch="intent"
+			className={({ isActive }) =>
+				cn(
+					'relative block whitespace-nowrap px-2 py-2 text-base after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full focus:after:w-full',
+					{
+						'after:w-full': isActive,
+						'after:w-0': !isActive,
+					},
+				)
+			}
+		>
+			{children}
+		</NavLink>
 	)
 }
 

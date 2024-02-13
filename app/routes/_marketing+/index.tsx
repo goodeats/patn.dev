@@ -4,6 +4,7 @@ import {
 	type MetaFunction,
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import { HomeWrapper } from '#app/components/layout'
 import { LogoGrid } from '#app/components/templates'
 import { prisma } from '#app/utils/db.server.ts'
 import { getUserImgSrc } from '#app/utils/misc.tsx'
@@ -78,7 +79,7 @@ export default function Index() {
 	}
 
 	return (
-		<main className="font-poppins grid h-full place-items-center">
+		<HomeWrapper>
 			<div className="grid place-items-center px-4 py-16 xl:grid-cols-2 xl:gap-24">
 				<div className="flex max-w-md flex-col items-center text-center xl:order-2 xl:items-start xl:text-left">
 					<a
@@ -92,6 +93,6 @@ export default function Index() {
 				</div>
 				<LogoGrid logos={logos} />
 			</div>
-		</main>
+		</HomeWrapper>
 	)
 }
