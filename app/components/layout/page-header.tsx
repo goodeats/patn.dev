@@ -1,10 +1,12 @@
 import { Link } from '@remix-run/react'
+import { useRootLoaderData } from '#app/root'
 import { useOptionalUser } from '#app/utils/user'
 import { Logo, ThemeSwitch, UserDropdown } from '../templates'
 import { Button } from '../ui'
 
 const PageHeader = () => {
 	const user = useOptionalUser()
+	const { pages } = useRootLoaderData()
 
 	return (
 		<header className="container py-6">
@@ -12,6 +14,11 @@ const PageHeader = () => {
 				<Logo />
 
 				<div className="flex items-center gap-10">
+					{pages.map(page => (
+						<Link key={page.slug} to={`/${page.slug}`}>
+							{page.name}
+						</Link>
+					))}
 					<ThemeSwitch />
 					{user && <UserDropdown />}
 				</div>
@@ -22,6 +29,7 @@ const PageHeader = () => {
 
 const PageHeaderDev = () => {
 	const user = useOptionalUser()
+	const { pages } = useRootLoaderData()
 
 	const LoginButton = () => {
 		return (
@@ -37,6 +45,11 @@ const PageHeaderDev = () => {
 				<Logo />
 
 				<div className="flex items-center gap-10">
+					{pages.map(page => (
+						<Link key={page.slug} to={`/${page.slug}`} prefetch="intent">
+							{page.name}
+						</Link>
+					))}
 					{user ? <UserDropdown /> : <LoginButton />}
 				</div>
 			</nav>
