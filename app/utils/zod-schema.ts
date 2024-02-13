@@ -32,3 +32,7 @@ export const EditPostSchema = z.object({
 	id: z.string(),
 	...PostSchema,
 })
+
+export const DeletePostSchema = z.object({
+	id: z.string(),
+})

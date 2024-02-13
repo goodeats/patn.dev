@@ -4,12 +4,11 @@ import {
 	clickButton,
 	clickLink,
 	expectHeading,
-	expectPageTableRowContent,
 	expectUniqueText,
 	pageLocateTableBody,
 } from '#tests/page-utils'
 import { expect, test } from '#tests/playwright-utils.ts'
-import { insertPage, insertPages } from '../pages-utils'
+import { insertPage } from '../pages-utils'
 import { insertPost } from './posts-utils.ts'
 
 test.describe('Users cannot view Admin Page Post', () => {
@@ -64,12 +63,8 @@ test.describe('User can view Admin Page Post', () => {
 		await expectUniqueText(page, adminPost.content)
 	})
 
-	test.skip('and delete page', async ({ page, login }) => {
+	test('and delete post', async ({ page, login }) => {
 		await login()
-		await prisma.page.deleteMany()
-		const pages = await insertPages(5)
-		const adminPage = pages[0]
-		const testRoute = `/admin/pages/${adminPage.slug}`
 
 		await page.goto(testRoute)
 		await expect(page).toHaveURL(testRoute)
@@ -77,19 +72,12 @@ test.describe('User can view Admin Page Post', () => {
 		// delete button
 		await clickButton(page, 'delete')
 		await clickButton(page, 'confirm delete')
-		await expect(page).toHaveURL('/admin/pages')
+		await expect(page).toHaveURL(`/admin/pages/${adminPage.slug}/posts`)
 
 		// expect toast
-		await expectUniqueText(page, `"${adminPage.name}" has been deleted.`)
-		// expect page to not be visible from list
+		await expectUniqueText(page, `"${adminPost.title}" has been deleted.`)
+		// expect post to not be visible from list
 		const tableBody = await pageLocateTableBody(page)
-		await expect(tableBody).not.toHaveText(adminPage.name)
-		// expect pages reordered
-		pages.shift()
-		for (let i = 0; i < pages.length; i++) {
-			const thisPage = pages[i]
-			const rowContent = [i.toString(), thisPage.name]
-			await expectPageTableRowContent(page, i, rowContent)
-		}
+		await expect(tableBody).not.toHaveText(adminPost.title)
 	})
 })

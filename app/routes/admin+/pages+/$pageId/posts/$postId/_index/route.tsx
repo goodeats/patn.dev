@@ -1,6 +1,7 @@
 import { invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs } from '@remix-run/node'
 import { Link, json, useLoaderData } from '@remix-run/react'
+import { type DataFunctionArgs } from '@sentry/remix/types/utils/vendor/types'
 import { formatDistanceToNow } from 'date-fns'
 import {
 	ContentBody,
@@ -21,22 +22,25 @@ import {
 	CardTitle,
 	Icon,
 } from '#app/components/ui'
+import { requireAdminUserId } from '#app/utils/auth.server'
 import { prisma } from '#app/utils/db.server'
 import { requireUserWithAdminRole } from '#app/utils/permissions.server'
+import { INTENT, deletePostAction } from './actions'
+import { DeleteForm } from './delete-form'
 
-// export async function action({ request }: DataFunctionArgs) {
-// 	await requireAdminUserId(request)
-// 	const formData = await request.formData()
-// 	const intent = formData.get('intent')
-// 	switch (intent) {
-// 		case INTENT.deletePage: {
-// 			return deletePageAction({ request, formData })
-// 		}
-// 		default: {
-// 			throw new Response(`Invalid intent "${intent}"`, { status: 400 })
-// 		}
-// 	}
-// }
+export async function action({ request }: DataFunctionArgs) {
+	await requireAdminUserId(request)
+	const formData = await request.formData()
+	const intent = formData.get('intent')
+	switch (intent) {
+		case INTENT.deletePost: {
+			return deletePostAction({ request, formData })
+		}
+		default: {
+			throw new Response(`Invalid intent "${intent}"`, { status: 400 })
+		}
+	}
+}
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
 	await requireUserWithAdminRole(request)
@@ -136,7 +140,7 @@ export default function PostDetailsRoute() {
 					<FooterLinkButton to="edit" icon="pencil-1">
 						Edit
 					</FooterLinkButton>
-					{/* <DeleteForm id={page.id} /> */}
+					<DeleteForm id={post.id} />
 				</FooterActions>
 			</FooterContainer>
 		</ContentBody>
