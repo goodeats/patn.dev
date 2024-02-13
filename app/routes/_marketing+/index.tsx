@@ -62,19 +62,34 @@ export default function Index() {
 
 	const CallToAction = () => {
 		return (
-			<p
-				data-paragraph
-				className="mt-6 animate-slide-top text-xl/7 text-muted-foreground [animation-fill-mode:backwards] [animation-delay:0.8s] xl:mt-8 xl:animate-slide-left xl:text-xl/6 xl:leading-10 xl:[animation-fill-mode:backwards] xl:[animation-delay:1s]"
-			>
-				Check out the{' '}
-				<a
-					className="underline hover:no-underline"
-					href="https://github.com/goodeats/patn.dev"
+			<>
+				<p
+					data-paragraph
+					className="mt-6 animate-slide-top text-xl/7 text-muted-foreground [animation-fill-mode:backwards] [animation-delay:0.8s] xl:mt-8 xl:animate-slide-left xl:text-xl/6 xl:leading-10 xl:[animation-fill-mode:backwards] xl:[animation-delay:1s]"
 				>
-					GitHub Repo
-				</a>{' '}
-				for my portfolio site while it is under construction! 🚧
-			</p>
+					Check out the{' '}
+					<a
+						className="underline hover:no-underline"
+						href="https://github.com/goodeats/patn.dev"
+					>
+						GitHub Repo
+					</a>{' '}
+					for my portfolio site while it is actively under construction! 🚧
+				</p>
+				<p
+					data-paragraph
+					className="mt-6 animate-slide-top text-xl/7 text-muted-foreground [animation-fill-mode:backwards] [animation-delay:0.8s] xl:mt-8 xl:animate-slide-left xl:text-xl/6 xl:leading-10 xl:[animation-fill-mode:backwards] xl:[animation-delay:1s]"
+				>
+					Also check out the{' '}
+					<a
+						className="underline hover:no-underline"
+						href="https://pppaaattt.xyz"
+					>
+						Generative Art
+					</a>{' '}
+					project that I am also currently working on! 🎨🔺
+				</p>
+			</>
 		)
 	}
 
