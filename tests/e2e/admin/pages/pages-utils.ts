@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker'
-import { type Page as PlaywrightPage } from '@playwright/test'
 import { type Page } from '@prisma/client'
 import { prisma } from '#app/utils/db.server'
 import { stringToSlug } from '#app/utils/misc'
@@ -42,12 +41,32 @@ export const createPages = [
 		description: 'Landing page for the website.',
 		slug: 'home',
 		published: true,
+		posts: {
+			create: [
+				{
+					title: 'Welcome to my website!',
+					slug: 'welcome-to-my-website',
+					description: 'This is the first post on my website.',
+					content: 'This is the first post on my website.',
+				},
+			],
+		},
 	},
 	{
 		name: 'Projects',
 		description: 'A list of projects I have worked on.',
 		slug: 'projects',
 		published: true,
+		posts: {
+			create: [
+				{
+					title: 'Project XYZ',
+					slug: 'project-xyz',
+					description: 'This is the first project.',
+					content: 'This is the first project.',
+				},
+			],
+		},
 	},
 	{
 		name: 'Blog',
@@ -60,15 +79,35 @@ export const createPages = [
 		description: 'A little bit about me.',
 		slug: 'about',
 		published: true,
+		posts: {
+			create: [
+				{
+					title: 'About Me',
+					slug: 'about-me',
+					description: 'This is the first post about me.',
+					content: 'This is the first post about me.',
+					published: true,
+					publishedAt: new Date(),
+				},
+			],
+		},
 	},
 	{
 		name: 'Contact',
 		description: 'Get in touch with me.',
 		slug: 'contact',
 		published: true,
+		posts: {
+			create: [
+				{
+					title: 'Contact Me',
+					slug: 'contact-me',
+					description: 'This is the first post about contacting me.',
+					content: 'This is the first post about contacting me.',
+					published: true,
+					publishedAt: new Date(),
+				},
+			],
+		},
 	},
 ]
-
-export async function pageActionButton(page: PlaywrightPage, name: string) {
-	return await page.getByRole('button', { name })
-}

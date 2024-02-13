@@ -21,36 +21,42 @@ export const expectHeading = async (page: Page, name: string) => {
 	).toBeVisible()
 }
 
+export const getLink = async (page: Page, name: string) => {
+	return await page.getByRole('link', { name: new RegExp(name, 'i') })
+}
+
 export const clickLink = async (page: Page, name: string) => {
-	await page.getByRole('link', { name: new RegExp(name, 'i') }).click()
+	const link = await getLink(page, name)
+	await link.click()
 }
 
 export const expectLink = async (page: Page, name: string) => {
-	await expect(
-		page.getByRole('link', { name: new RegExp(name, 'i') }),
-	).toBeVisible()
+	const link = await getLink(page, name)
+	await expect(link).toBeVisible()
 }
 
 export const expectNoLink = async (page: Page, name: string) => {
-	await expect(
-		page.getByRole('link', { name: new RegExp(name, 'i') }),
-	).not.toBeVisible()
+	const link = await getLink(page, name)
+	await expect(link).not.toBeVisible()
+}
+
+export const getButton = async (page: Page, name: string) => {
+	return await page.getByRole('button', { name: new RegExp(name, 'i') })
 }
 
 export const clickButton = async (page: Page, name: string) => {
-	await page.getByRole('button', { name: new RegExp(name, 'i') }).click()
+	const button = await getButton(page, name)
+	await button.click()
 }
 
 export async function expectButton(page: Page, name: string) {
-	await expect(
-		page.getByRole('button', { name: new RegExp(name, 'i') }),
-	).toBeVisible()
+	const button = await getButton(page, name)
+	await expect(button).toBeVisible()
 }
 
 export async function expectNoButton(page: Page, name: string) {
-	await expect(
-		page.getByRole('button', { name: new RegExp(name, 'i') }),
-	).not.toBeVisible()
+	const button = await getButton(page, name)
+	await expect(button).not.toBeVisible()
 }
 
 interface FieldProps {
@@ -80,8 +86,13 @@ export const fillSubmitForm = async ({
 	}
 }
 
+export const getInput = async (page: Page, name: string) => {
+	return await page.getByRole('textbox', { name: new RegExp(name, 'i') })
+}
+
 export const fillInput = async (page: Page, name: string, value: string) => {
-	await page.getByRole('textbox', { name: new RegExp(name, 'i') }).fill(value)
+	const input = await getInput(page, name)
+	await input.fill(value)
 }
 
 export const checkCheckbox = async (page: Page, name: string) => {

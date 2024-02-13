@@ -1,6 +1,7 @@
 import { invariantResponse } from '@epic-web/invariant'
 import { type LoaderFunctionArgs } from '@remix-run/node'
 import { Link, json, useLoaderData } from '@remix-run/react'
+import { formatDistanceToNow } from 'date-fns'
 import {
 	ContentBody,
 	ContentHeader,
@@ -14,29 +15,49 @@ import { EditForm, action } from './edit-form'
 export { action }
 export async function loader({ params, request }: LoaderFunctionArgs) {
 	await requireUserWithAdminRole(request)
+
+	const pageSlug = params.pageId
+
 	const page = await prisma.page.findFirst({
-		where: { slug: params.pageId },
+		where: { slug: pageSlug },
 		select: {
 			id: true,
 			name: true,
-			description: true,
 			slug: true,
-			published: true,
-			updatedAt: true,
 		},
 	})
 
 	invariantResponse(page, 'Not found', { status: 404 })
 
-	return json({ page })
+	const post = await prisma.post.findFirst({
+		where: { slug: params.postId },
+		select: {
+			id: true,
+			title: true,
+			description: true,
+			content: true,
+			slug: true,
+			published: true,
+			publishedAt: true,
+			updatedAt: true,
+			pageId: true,
+		},
+	})
+
+	invariantResponse(post, 'Not found', { status: 404 })
+
+	const updatedAtDate = new Date(post.updatedAt)
+	const updatedtimeAgo = formatDistanceToNow(updatedAtDate)
+
+	return json({ page, post, updatedtimeAgo })
 }
 
-export default function EditPageRoute() {
+export default function EditPostRoute() {
 	const data = useLoaderData<typeof loader>()
 
 	return (
 		<ContentBody>
-			<ContentHeader>Edit Page</ContentHeader>
+			<ContentHeader>Edit Post</ContentHeader>
 			<ContentSection>
 				<div className="ml-4 mr-auto">
 					<Button asChild>
@@ -46,7 +67,7 @@ export default function EditPageRoute() {
 					</Button>
 				</div>
 			</ContentSection>
-			<EditForm page={data.page} />
+			<EditForm post={data.post} />
 		</ContentBody>
 	)
 }

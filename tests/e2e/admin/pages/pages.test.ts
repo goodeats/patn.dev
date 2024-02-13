@@ -4,11 +4,13 @@ import {
 	expectHeading,
 	expectPageTableHeaders,
 	expectPageTableRowContent,
+	getButton,
+	getLink,
 	pageTableRow,
 	pageTableRowCount,
 } from '#tests/page-utils'
 import { expect, test } from '#tests/playwright-utils.ts'
-import { insertPage, insertPages, pageActionButton } from './pages-utils'
+import { insertPage, insertPages } from './pages-utils'
 
 test.describe('Users cannot view Admin Pages', () => {
 	test('when not logged in', async ({ page }) => {
@@ -36,15 +38,28 @@ test.describe('User can view Admin Pages', () => {
 		await expectHeading(page, 'Pages')
 
 		// table content
-		await expectPageTableHeaders(page, ['Order', 'Page', 'Published', 'Date'])
+		await expectPageTableHeaders(page, [
+			'Order',
+			'Page',
+			'Published',
+			'Posts',
+			'Date',
+		])
 		const rowCount = await pageTableRowCount(page)
-		const pageUpdatedAt = new Date().toLocaleDateString()
-		const rowContent = ['0', newPage.name, 'No', pageUpdatedAt]
+		const updatedAt = new Date().toLocaleDateString()
+		const rowContent = ['0', newPage.name, 'No', '0', updatedAt]
 		await expectPageTableRowContent(page, rowCount - 1, rowContent)
 
 		// table link to page
 		await clickLink(page, newPage.name)
 		await expect(page).toHaveURL(`${testRoute}/${newPage.slug}`)
+		await page.goto(testRoute)
+
+		// table link to page posts
+		const firstTableRow = await pageTableRow(page, 0)
+		const postsLink = await getLink(page, '0')
+		await firstTableRow.locator(postsLink).click()
+		await expect(page).toHaveURL(`${testRoute}/${newPage.slug}/posts`)
 
 		await prisma.page.deleteMany()
 	})
@@ -59,9 +74,9 @@ test.describe('User can view Admin Pages', () => {
 		await expect(page).toHaveURL(testRoute)
 
 		// all created just now
-		const pageUpdatedAt = new Date().toLocaleDateString()
-		const moveUpButton = await pageActionButton(page, 'Move Up')
-		const moveDownButton = await pageActionButton(page, 'Move Down')
+		const updatedAt = new Date().toLocaleDateString()
+		const moveUpButton = await getButton(page, 'Move Up')
+		const moveDownButton = await getButton(page, 'Move Down')
 
 		// expect pages in order
 		for (let i = 0; i < pages.length; i++) {
@@ -73,7 +88,8 @@ test.describe('User can view Admin Pages', () => {
 				i.toString(),
 				thisPage.name,
 				'Yes',
-				pageUpdatedAt,
+				'0',
+				updatedAt,
 				actions,
 			]
 			await expectPageTableRowContent(page, i, rowContent)

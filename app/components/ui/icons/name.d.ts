@@ -32,6 +32,7 @@ export type IconName =
 	| 'plus'
 	| 'question-mark-circled'
 	| 'reset'
+	| 'rocket'
 	| 'sun'
 	| 'trash'
 	| 'twitter-logo'

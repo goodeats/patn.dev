@@ -1,4 +1,5 @@
 import { getFormProps, useForm } from '@conform-to/react'
+import { getZodConstraint } from '@conform-to/zod'
 import { Form, useActionData } from '@remix-run/react'
 import {
 	DeleteDialog,
@@ -7,6 +8,7 @@ import {
 } from '#app/components/templates'
 import { Icon } from '#app/components/ui'
 import { useIsPending } from '#app/utils/misc.tsx'
+import { DeletePostSchema } from '#app/utils/zod-schema'
 import { INTENT } from './actions'
 import { type action } from './route'
 
@@ -18,7 +20,8 @@ export function DeleteForm({ id }: { id: string }) {
 		const isPending = useIsPending()
 
 		const [form] = useForm({
-			id: 'delete-page',
+			id: 'delete-post',
+			constraint: getZodConstraint(DeletePostSchema),
 			lastResult: actionData?.result,
 		})
 
@@ -31,7 +34,7 @@ export function DeleteForm({ id }: { id: string }) {
 					form={form.id}
 					type="submit"
 					name="intent"
-					value={INTENT.deletePage}
+					value={INTENT.deletePost}
 					variant="destructive"
 					disabled={isPending}
 					status={isPending ? 'pending' : form.status ?? 'idle'}
@@ -47,8 +50,8 @@ export function DeleteForm({ id }: { id: string }) {
 
 	return (
 		<DeleteDialog
-			title="Delete Page"
-			description="Are you sure you want to delete this page?"
+			title="Delete Post"
+			description="Are you sure you want to delete this post?"
 		>
 			<DeleteConfirm />
 		</DeleteDialog>
