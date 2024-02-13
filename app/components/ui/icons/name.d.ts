@@ -16,6 +16,7 @@ export type IconName =
 	| 'download'
 	| 'envelope-closed'
 	| 'exit'
+	| 'external-link'
 	| 'file-text'
 	| 'gear'
 	| 'github-logo'
