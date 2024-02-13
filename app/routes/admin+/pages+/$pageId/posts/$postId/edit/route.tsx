@@ -57,7 +57,7 @@ export default function EditPostRoute() {
 
 	return (
 		<ContentBody>
-			<ContentHeader>Edit Page</ContentHeader>
+			<ContentHeader>Edit Post</ContentHeader>
 			<ContentSection>
 				<div className="ml-4 mr-auto">
 					<Button asChild>

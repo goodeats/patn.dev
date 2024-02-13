@@ -81,10 +81,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
 	invariantResponse(page, 'Page does not exist')
 
-	let publishedAt = null
-	if (published) {
-		publishedAt = new Date()
-	}
+	const publishedAt = published ? new Date() : null
 
 	const createdPost = await prisma.post.create({
 		select: { slug: true },

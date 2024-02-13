@@ -87,7 +87,6 @@ export async function action({ request }: ActionFunctionArgs) {
 		published,
 	} = submission.value
 	const slug = stringToSlug(title)
-	console.log('submission.value', submission.value)
 
 	const page = await prisma.page.findUnique({
 		select: { id: true, slug: true },
@@ -95,6 +94,21 @@ export async function action({ request }: ActionFunctionArgs) {
 	})
 
 	invariantResponse(page, 'Page does not exist')
+
+	const post = await prisma.post.findUnique({
+		select: { publishedAt: true },
+		where: { id: postId },
+	})
+
+	invariantResponse(post, 'Post does not exist')
+
+	const publishedAt = post.publishedAt
+		? published
+			? post.publishedAt // was published, still is
+			: null // was published, now is not
+		: published
+			? new Date() // was not published, now is
+			: null // was not published, still is not
 
 	const updatedPost = await prisma.post.update({
 		where: { id: postId },
@@ -104,7 +118,8 @@ export async function action({ request }: ActionFunctionArgs) {
 			description,
 			content,
 			slug,
-			published: !!published,
+			published: !!published, // if unchecked, published will not be in submission
+			publishedAt,
 		},
 	})
 
