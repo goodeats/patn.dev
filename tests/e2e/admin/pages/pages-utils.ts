@@ -40,7 +40,7 @@ export const createPages = [
 		name: 'Home',
 		description: 'Landing page for the website.',
 		slug: 'home',
-		published: true,
+		published: false,
 		posts: {
 			create: [
 				{
@@ -56,7 +56,7 @@ export const createPages = [
 		name: 'Projects',
 		description: 'A list of projects I have worked on.',
 		slug: 'projects',
-		published: true,
+		published: false,
 		posts: {
 			create: [
 				{
@@ -72,7 +72,7 @@ export const createPages = [
 		name: 'Blog',
 		description: 'A collection of my thoughts and experiences.',
 		slug: 'blog',
-		published: true,
+		published: false,
 	},
 	{
 		name: 'About',
@@ -96,7 +96,7 @@ export const createPages = [
 		name: 'Contact',
 		description: 'Get in touch with me.',
 		slug: 'contact',
-		published: true,
+		published: false,
 		posts: {
 			create: [
 				{

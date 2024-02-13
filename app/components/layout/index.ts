@@ -1,6 +1,7 @@
 export * from './container'
 export * from './content'
 export * from './error-boundary'
+export * from './home'
 export * from './footer'
 export * from './form'
 export * from './page-footer'

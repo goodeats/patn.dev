@@ -110,6 +110,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
 				{ timings, type: 'find user', desc: 'find user in root' },
 			)
 		: null
+
+	const pages = await prisma.page.findMany({
+		where: { published: true },
+		select: { id: true, name: true, slug: true },
+	})
+
 	if (userId && !user) {
 		console.info('something weird happened')
 		// something weird happened... The user is authenticated but we can't find
@@ -122,6 +128,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	return json(
 		{
 			user,
+			pages,
 			requestInfo: {
 				hints: getHints(request),
 				origin: getDomainUrl(request),
