@@ -7,6 +7,7 @@ My portfolio website as a web developer.
 To run this project locally:
 
 ```sh
+cp .env.example .env # and fill in the values for ADMIN_EMAIL and ADMIN_PASSWORD
 npm i
 npm run setup
 npm run dev

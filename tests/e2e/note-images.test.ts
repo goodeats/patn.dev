@@ -18,7 +18,7 @@ test('Users can create note with an image', async ({ page, login }) => {
 	await page
 		.getByLabel('image')
 		.nth(0)
-		.setInputFiles('tests/fixtures/images/kody-notes/cute-koala.png')
+		.setInputFiles('tests/fixtures/images/pat-notes/cute-koala.png')
 	await page.getByRole('textbox', { name: 'alt text' }).fill(altText)
 
 	await page.getByRole('button', { name: 'submit' }).click()
@@ -42,14 +42,14 @@ test('Users can create note with multiple images', async ({ page, login }) => {
 	await page
 		.getByLabel('image')
 		.nth(0)
-		.setInputFiles('tests/fixtures/images/kody-notes/cute-koala.png')
+		.setInputFiles('tests/fixtures/images/pat-notes/cute-koala.png')
 	await page.getByLabel('alt text').nth(0).fill(altText1)
 	await page.getByRole('button', { name: 'add image' }).click()
 
 	await page
 		.getByLabel('image')
 		.nth(1)
-		.setInputFiles('tests/fixtures/images/kody-notes/koala-coder.png')
+		.setInputFiles('tests/fixtures/images/pat-notes/koala-coder.png')
 	await page.getByLabel('alt text').nth(1).fill(altText2)
 
 	await page.getByRole('button', { name: 'submit' }).click()
@@ -75,7 +75,7 @@ test('Users can edit note image', async ({ page, login }) => {
 	await page.getByRole('link', { name: 'Edit', exact: true }).click()
 	const updatedImage = {
 		altText: 'koala coder',
-		location: 'tests/fixtures/images/kody-notes/koala-coder.png',
+		location: 'tests/fixtures/images/pat-notes/koala-coder.png',
 	}
 	await page.getByLabel('image').nth(0).setInputFiles(updatedImage.location)
 	await page.getByLabel('alt text').nth(0).fill(updatedImage.altText)
@@ -126,9 +126,7 @@ function createNoteWithImage() {
 			create: {
 				altText: 'cute koala',
 				contentType: 'image/png',
-				blob: fs.readFileSync(
-					'tests/fixtures/images/kody-notes/cute-koala.png',
-				),
+				blob: fs.readFileSync('tests/fixtures/images/pat-notes/cute-koala.png'),
 			},
 		},
 	} satisfies Omit<
