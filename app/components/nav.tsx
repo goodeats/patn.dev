@@ -1,13 +1,10 @@
-import { Link } from '@remix-run/react'
 import { useOptionalUser } from '../utils/user.ts'
 import { Logo } from './logo.tsx'
-import { SearchBar } from './search-bar.tsx'
-import { Button } from './ui/button.tsx'
 import { UserDropdown } from './user-dropdown.tsx'
 
 export function Nav({ isOnSearchPage }: { isOnSearchPage: boolean }) {
 	const user = useOptionalUser()
-	const searchBar = isOnSearchPage ? null : <SearchBar status="idle" />
+	const searchBar = isOnSearchPage ? null : null // <SearchBar status="idle" />
 
 	return (
 		<header className="container py-6">
@@ -17,13 +14,7 @@ export function Nav({ isOnSearchPage }: { isOnSearchPage: boolean }) {
 					{searchBar}
 				</div>
 				<div className="flex items-center gap-10">
-					{user ? (
-						<UserDropdown />
-					) : (
-						<Button asChild variant="default" size="lg">
-							<Link to="/login">Log In</Link>
-						</Button>
-					)}
+					{user ? <UserDropdown /> : null}
 				</div>
 				<div className="block w-full sm:hidden">{searchBar}</div>
 			</nav>
