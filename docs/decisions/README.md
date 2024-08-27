@@ -18,5 +18,6 @@ The following are the project-specific decisions made for this application:
 - [000](./000-template.md) - Template.
 - [001](./001-this-project.md) - This Project.
 - [002](./002-remix-run.md) - Choosing Remix and Epic Stack.
+- [003](./003-one-user.md) - One User Approach.
 
 For general documentation, see the [Docs README](../README.md).
