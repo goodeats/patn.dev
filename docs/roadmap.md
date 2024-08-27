@@ -1,0 +1,24 @@
+# Personal Website Roadmap Checklist
+
+- [x] Setup (tech stack, environment, Git)
+- [ ] Landing Page (layout, header, footer, content)
+- [ ] About Page (content, layout, media)
+- [ ] Contact Page (form, validation, notifications)
+- [ ] Posts (blog layout, CMS, CRUD functionality)
+- [ ] Bookmarks (layout, CRUD functionality, API integration)
+- [ ] Projects (layout, details, filtering)
+- [ ] Deploy website
+- [ ] Monitor performance
+- [ ] Categories and Tags (posts, bookmarks)
+- [ ] SEO (meta tags, sitemap, robots.txt)
+- [ ] Analytics (Google Analytics, Plausible)
+- [ ] Security (SSL, password protection)
+- [ ] Accessibility (Lighthouse, WAVE)
+- [ ] Performance (Lighthouse, WebPageTest)
+- [ ] SEO (Google Search Console, Bing Webmaster Tools)
+- [ ] Social Media (Facebook, Twitter, LinkedIn)
+- [ ] Email Marketing (Mailchimp, Sendinblue)
+- [ ] Web App Manifest (PWA)
+- [ ] PWA (Progressive Web App)
+- [ ] Responsive Web Design (Mobile, Tablet, Desktop)
+- [ ] Accessibility (Accessibility Insights)

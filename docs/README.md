@@ -16,6 +16,7 @@ The Epic Stack documentation provides valuable insights into the foundational el
 The following documentation pages are specific to this project:
 
 - [Getting Started Guide](./getting-started.md) - How to get started with the project.
+- [Roadmap](./roadmap.md) - Project roadmap and future plans.
 - [Decisions](./decisions/README.md) - Architecture Decision Records (ADRs) for the project.
 
 ## Contact
