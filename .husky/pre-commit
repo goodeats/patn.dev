@@ -1,8 +1,9 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# run this command to make the .husky/* files executable
+# https://github.com/typicode/husky/issues/1177
+# chmod +x .husky/_/*
 
 # Check if HUSKY is set to 0 in .env, if so, skip the pre-commit hook
-# Set HUSKY=1 in .env to enable these checks
+# Set HUSKY=1 in .env or .env.local to enable these checks
 if grep -q "HUSKY=0" .env; then
   echo "Skipping pre-commit hook. Set HUSKY=1 in .env to enable."
   exit 0
