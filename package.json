@@ -17,6 +17,7 @@
     "prisma:studio": "prisma studio",
     "format": "prettier --write .",
     "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "setup": "npm run build && prisma generate && prisma migrate deploy && prisma db seed && playwright install",
     "start": "cross-env NODE_ENV=production node .",
     "start:mocks": "cross-env NODE_ENV=production MOCKS=true tsx .",
@@ -29,7 +30,8 @@
     "test:e2e:install": "npx playwright install --with-deps chromium",
     "typecheck": "tsc",
     "typecheck:watch": "tsc --watch",
-    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
+    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run",
+    "prepare": "husky"
   },
   "prettier": "@epic-web/config/prettier",
   "eslintIgnore": [
@@ -140,6 +142,7 @@
     "esbuild": "^0.23.0",
     "eslint": "^9.7.0",
     "fs-extra": "^11.2.0",
+    "husky": "^9.1.5",
     "jsdom": "^24.1.0",
     "msw": "2.3.1",
     "node-html-parser": "^6.1.13",

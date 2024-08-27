@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Check if HUSKY is set to 0 in .env, if so, skip the pre-commit hook
+# Set HUSKY=1 in .env to enable these checks
+if grep -q "HUSKY=0" .env; then
+  echo "Skipping pre-commit hook. Set HUSKY=1 in .env to enable."
+  exit 0
+fi
+
+npm run build
+npm run lint:fix
+npm run typecheck
