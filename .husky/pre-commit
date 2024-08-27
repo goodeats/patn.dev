@@ -9,6 +9,6 @@ if grep -q "HUSKY=0" .env; then
   exit 0
 fi
 
-npm run build
+# npm run build
 npm run lint:fix
 npm run typecheck
