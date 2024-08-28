@@ -18,7 +18,6 @@ import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import appleTouchIconAssetUrl from './assets/favicons/apple-touch-icon.png'
 import faviconAssetUrl from './assets/favicons/favicon.svg'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
-import { Footer } from './components/footer.tsx'
 import { Header } from './components/header.tsx'
 import { EpicProgress } from './components/progress-bar.tsx'
 import { useToast } from './components/toaster.tsx'
@@ -195,8 +194,6 @@ function App() {
 				<div className="flex-1">
 					<Outlet />
 				</div>
-
-				<Footer />
 			</div>
 			<EpicToaster closeButton position="top-center" theme={theme} />
 			<EpicProgress />
