@@ -1,26 +1,50 @@
 import { type MetaFunction } from '@remix-run/node'
+import { NavLink } from '@remix-run/react'
 import {
-	Header,
-	AboutSection,
-	WorkSection,
-	ContactSection,
-} from './index.__components'
+	PageLayout,
+	Container,
+	Content,
+	PageTitle,
+	PageSubtitle,
+	NavList,
+	navLinkDefaultClassName,
+} from '#app/components/layouts/page'
 
 export const meta: MetaFunction = () => [{ title: 'Pat Needham' }]
 
 export default function Index() {
+	const links = [
+		{ to: '/about', label: 'About Me' },
+		{ to: '/work', label: 'My Work' },
+		{ to: '/contact', label: 'Contact' },
+	] as const
+
 	return (
-		<main className="font-poppins min-h-screen bg-background text-foreground">
-			<div className="container mx-auto px-4 py-8 sm:py-12 md:py-16 lg:py-24">
-				<div className="mx-auto max-w-3xl">
-					<Header />
-					<div className="space-y-8 md:space-y-12">
-						<AboutSection />
-						<WorkSection />
-						<ContactSection />
-					</div>
-				</div>
-			</div>
-		</main>
+		<PageLayout>
+			<Container>
+				<Content>
+					<PageTitle>Pat Needham</PageTitle>
+					<PageSubtitle>
+						Full-stack web developer from New York City
+					</PageSubtitle>
+					<nav>
+						<NavList>
+							{links.map(({ to, label }) => (
+								<li key={to}>
+									<NavLink
+										className={navLinkDefaultClassName}
+										to={to}
+										prefetch="intent"
+										unstable_viewTransition
+									>
+										{label}
+									</NavLink>
+								</li>
+							))}
+						</NavList>
+					</nav>
+				</Content>
+			</Container>
+		</PageLayout>
 	)
 }
