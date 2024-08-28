@@ -58,7 +58,7 @@ export const links: LinksFunction = () => {
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
 	return [
-		{ title: data ? 'Epic Notes' : 'Error | Epic Notes' },
+		{ title: data ? 'Pat Needham' : 'Error | Pat Needham' },
 		{ name: 'description', content: `Your own captain's log` },
 	]
 }
