@@ -19,5 +19,6 @@ The following are the project-specific decisions made for this application:
 - [001](./001-this-project.md) - This Project.
 - [002](./002-remix-run.md) - Choosing Remix and Epic Stack.
 - [003](./003-one-user.md) - One User Approach.
+- [004](./004-tailwind-component-factory.md) - Tailwind Component Factory for Layouts.
 
 For general documentation, see the [Docs README](../README.md).

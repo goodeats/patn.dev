@@ -1,8 +1,8 @@
 # Personal Website Roadmap Checklist
 
 - [x] Setup (tech stack, environment, Git)
-- [ ] Landing Page (layout, header, footer, content)
-- [ ] About Page (content, layout, media)
+- [x] Landing Page (layout, header, footer, content)
+- [x] About Page (content, layout, media)
 - [ ] Contact Page (form, validation, notifications)
 - [ ] Posts (blog layout, CMS, CRUD functionality)
 - [ ] Bookmarks (layout, CRUD functionality, API integration)
