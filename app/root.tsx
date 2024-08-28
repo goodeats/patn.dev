@@ -19,7 +19,7 @@ import appleTouchIconAssetUrl from './assets/favicons/apple-touch-icon.png'
 import faviconAssetUrl from './assets/favicons/favicon.svg'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { Footer } from './components/footer.tsx'
-import { Nav } from './components/nav.tsx'
+import { Header } from './components/header.tsx'
 import { EpicProgress } from './components/progress-bar.tsx'
 import { useToast } from './components/toaster.tsx'
 import { href as iconsHref } from './components/ui/icon.tsx'
@@ -190,13 +190,13 @@ function App() {
 			env={data.ENV}
 		>
 			<div className="flex h-screen flex-col justify-between">
-				<Nav />
+				<Header />
 
 				<div className="flex-1">
 					<Outlet />
 				</div>
 
-				<Footer userPreference={data.requestInfo.userPrefs.theme} />
+				<Footer />
 			</div>
 			<EpicToaster closeButton position="top-center" theme={theme} />
 			<EpicProgress />

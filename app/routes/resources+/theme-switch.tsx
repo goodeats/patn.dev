@@ -8,7 +8,7 @@ import { z } from 'zod'
 import { Icon } from '#app/components/ui/icon.tsx'
 import { useHints } from '#app/utils/client-hints.tsx'
 import { useRequestInfo } from '#app/utils/request-info.ts'
-import { type Theme, setTheme } from '#app/utils/theme.server.ts'
+import { setTheme } from '#app/utils/theme.server.ts'
 
 const ThemeFormSchema = z.object({
 	theme: z.enum(['system', 'light', 'dark']),
@@ -36,13 +36,10 @@ export async function action({ request }: ActionFunctionArgs) {
 	}
 }
 
-export function ThemeSwitch({
-	userPreference,
-}: {
-	userPreference?: Theme | null
-}) {
+export function ThemeSwitch() {
 	const fetcher = useFetcher<typeof action>()
 	const requestInfo = useRequestInfo()
+	const userPreference = requestInfo.userPrefs.theme
 
 	const [form] = useForm({
 		id: 'theme-switch',

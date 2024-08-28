@@ -2,7 +2,7 @@ import { useOptionalUser } from '../utils/user.ts'
 import { Logo } from './logo.tsx'
 import { UserDropdown } from './user-dropdown.tsx'
 
-export function Nav() {
+export function Header() {
 	const user = useOptionalUser()
 
 	return (
