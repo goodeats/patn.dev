@@ -16,7 +16,7 @@ import {
 import { withSentry } from '@sentry/remix'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import appleTouchIconAssetUrl from './assets/favicons/apple-touch-icon.png'
-import faviconAssetUrl from './assets/favicons/favicon.svg'
+import faviconAssetUrl from './assets/favicons/favicon.ico'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
 import { Header } from './components/header.tsx'
 import { EpicProgress } from './components/progress-bar.tsx'
